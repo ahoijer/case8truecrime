@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Websocket</title>
+
+    <link rel="stylesheet" href="styles/main.css">
+
+</head>
+
+<body>
+<div class="container-mainpage">
+    <!-- server status -->
+    <div id="status"></div>
+
+    <div id="container-chat">
+    <!-- input nickname -->
+    <input type="text" id="nickname" placeholder="Enter nickname">
+    <button id="setNickname">Set nickname</button>
+
+    <!-- input chat -->
+    <input type="text" id="inputText" placeholder="Type and press Enter" disabled>
+
+    <!-- DOM chat -->
+    <ul id="conversation"></ul>
+
+    <!-- use template to set html structure for a message -->
+    <template id="message">
+
+        <li>
+            <span></span>
+            <p></p>
+            <time datetime=""></time>
+        </li>
+
+    </template>
+</div>
+</div>
+    <script src="js/code.js"></script>
+
+</body>
+
+</html>

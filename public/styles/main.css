@@ -1,0 +1,17 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.container-mainpage {
+    position: relative;
+}
+
+#container-chat {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 400px;
+    border: 2px solid black;
+}
