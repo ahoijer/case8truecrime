@@ -2,16 +2,87 @@
 const inputText = document.getElementById("inputText");
 const setNickname = document.querySelector("#setNickname");
 
+const murderStory = document.getElementById('murderStory');
+const killerInfo = document.getElementById('killerInfo');
+
 
 // variable current user | nickname
 let nickname;
 
+// my json
+let killer;
+let murderhistory;
 
 // use WebSocket >>> make sure server uses same ws port!
 const websocket = new WebSocket("ws://localhost:80");  
 
+// lägg in en fetch
+fetch('thekillers.json')
+.then((response) => response.json())
+.then((data) => {
+
+    killer = data;
+    console.log('killer', killer);
+
+    killer.map((thisKiller) => {
+
+        console.log(thisKiller);
+    
+        //CREATE DIV FOR MY KILLERS
+        const myKillers = document.createElement('div');
+    
+        // CREATE H2 TAG FOR THE NAME OF THE KILLER
+        let h2Name = document.createElement('h2');
+    
+        // DECLARE WHAT MY h2Name SHOULD CONTAIN
+        h2Name.innerText = thisKiller.name;
+    
+        // WHAT SHOULD MYKILLERS CONTAIN
+        myKillers.appendChild(h2Name);
+    
+        // ADD myKillers TO MY BIG DIV killerInfo
+        killerInfo.appendChild(myKillers);
+    
+    })
+})
+
+fetch('murderhistory.json')
+.then((response) => response.json())
+.then ((data) => {
+    murderhistory = data;
+    console.log('murderhistory',  murderhistory);
+
+    // murderhistory.map((thisStory) => {
+    //     console.log("thisStory", thisStory)
+
+    //     const myStory = document.createElement('div');
+
+    //     let pTagStory = document.createElement('p');
+
+    //     pTagStory.innerText = thisStory.murderhistory;
+    //     myStory.appendChild(pTagStory);
+    //     murderStory.appendChild(myStory);
+    // }) 
 
 
+    function pickRandomStory() {
+        // console.log(murderhistory[Math.floor(Math.random()*murderhistory.length)].murderhistory)
+        const myStory = document.createElement('div');
+
+        let pTagStory = document.createElement('p');
+
+        pTagStory.innerText = murderhistory[Math.floor(Math.random()*murderhistory.length)].murderhistory;
+
+        myStory.appendChild(pTagStory);
+
+        murderStory.appendChild(myStory);
+
+        return murderhistory[Math.floor(Math.random()*murderhistory.length)].murderhistory;
+}
+
+pickRandomStory();
+
+})
 
 /* event listeners
 ------------------------------- */

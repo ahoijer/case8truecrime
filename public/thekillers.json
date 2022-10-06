@@ -1,0 +1,21 @@
+[
+    {
+        "id": 0,
+            "image": "url",
+            "name": "Mrs Agatha",
+            "age": "72",
+            "clues": {
+                "charactertraits": "Envy",
+                "approach": "Food and drinks",
+                "murderweapon": "Poison"
+            }
+        
+    },
+    {
+        "id": 1,
+            "image": "url",
+            "name": "James",
+            "age": "72"
+        
+    }
+]

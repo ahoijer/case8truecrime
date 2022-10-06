@@ -11,6 +11,8 @@ import { WebSocketServer } from "ws";
 // import functions
 import { parseJSON, broadcast, broadcastButExclude } from "./libs/functions.js";
 
+// import fs from "fs";
+
 
 
 /* application variables
@@ -27,6 +29,7 @@ const app = express();
 
 // serve static files - every file in folder named 'public'
 app.use(express.static("public"));
+
 
 
 
@@ -107,7 +110,10 @@ wss.on("connection", (ws) => {
     });
 });
 
-
+// kommentera ut
+// app.get('/api/thekillers', (req, res) => {
+//     res.json()
+// })
 
 /* listen on initial connection
 ------------------------------- */
