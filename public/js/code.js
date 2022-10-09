@@ -16,6 +16,7 @@ let murderhistory;
 // use WebSocket >>> make sure server uses same ws port!
 const websocket = new WebSocket("ws://localhost:80");  
 
+
 // lägg in en fetch
 fetch('thekillers.json')
 .then((response) => response.json())
@@ -26,6 +27,8 @@ fetch('thekillers.json')
 
     killer.map((thisKiller) => {
 
+        let count = 0;
+
         console.log(thisKiller);
     
         //CREATE DIV FOR MY KILLERS
@@ -33,15 +36,32 @@ fetch('thekillers.json')
     
         // CREATE H2 TAG FOR THE NAME OF THE KILLER
         let h2Name = document.createElement('h2');
+        let buttonClue = document.createElement('button');
+
+        buttonClue.addEventListener('click', () => {
+            if (count < 3) {
+                const clues = document.createElement('div');
+
+                clues.innerText = thisKiller.clues[count];
+    
+                myKillers.appendChild(clues);
+    
+                count += 1;
+            } 
+        })
     
         // DECLARE WHAT MY h2Name SHOULD CONTAIN
         h2Name.innerText = thisKiller.name;
+        buttonClue.innerText = 'Get clue';
     
         // WHAT SHOULD MYKILLERS CONTAIN
         myKillers.appendChild(h2Name);
+        myKillers.appendChild(buttonClue);
     
         // ADD myKillers TO MY BIG DIV killerInfo
         killerInfo.appendChild(myKillers);
+        killerInfo.appendChild(myKillers);
+
     
     })
 })
