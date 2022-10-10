@@ -91,22 +91,34 @@ wss.on("connection", (ws) => {
         // use obj property 'type' to handle message event
         switch (obj.type) {
             case "text":
-                break;
-            case "somethingelse":
-                break;
-            default:
-                break;
-        }
 
-        // message to clients
+             // message to clients
         let objBroadcast = {
             type: "text",
             msg: obj.msg,
             nickname: obj.nickname,
         };
 
-        // broadcast to all but this ws...
+                // broadcast to all but this ws...
         broadcastButExclude(wss, ws, objBroadcast);
+
+                break;
+                case "clue":
+
+                // i min button click ska skicka till servern, ett meddelande ska skickas (broadcast: message) med JSON.stringify
+                // webscoket.send(JSON.stringify({type: "clue", paylod: killer:id"} inne i min code.js)) skicka till servern
+                // servern får ha koll på poängen, hur många det är från början. vid noll poäng är det gameover 
+                // points kan ligga här inne med , efter jag skickat clue
+
+
+                break
+            case "somethingelse":
+                break;
+            default:
+                break;
+        }
+
+
     });
 });
 

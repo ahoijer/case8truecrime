@@ -5,6 +5,9 @@ const setNickname = document.querySelector("#setNickname");
 const murderStory = document.getElementById('murderStory');
 const killerInfo = document.getElementById('killerInfo');
 
+const canvas = document.getElementById('rectangle');
+const ctx = canvas.getContext('2d');
+
 
 // variable current user | nickname
 let nickname;
@@ -12,6 +15,10 @@ let nickname;
 // my json
 let killer;
 let murderhistory;
+
+// count clues and points
+let count = 0;
+
 
 // use WebSocket >>> make sure server uses same ws port!
 const websocket = new WebSocket("ws://localhost:80");  
@@ -22,44 +29,68 @@ fetch('thekillers.json')
 .then((response) => response.json())
 .then((data) => {
 
+    ctx.fillStyle = 'green';
+    ctx.fillRect(0,0,canvas.clientWidth,canvas.clientHeight);
+
     killer = data;
     console.log('killer', killer);
 
     killer.map((thisKiller) => {
 
-        let count = 0;
+        // denna kan läggas ut globalt när jag löst pop()
+        // sen kan jag lägga en global grej för att förändra min rektangel
 
-        console.log(thisKiller);
+        console.log(thisKiller.clues);
     
         //CREATE DIV FOR MY KILLERS
         const myKillers = document.createElement('div');
     
         // CREATE H2 TAG FOR THE NAME OF THE KILLER
         let h2Name = document.createElement('h2');
+        let ptAge = document.createElement('p');
         let buttonClue = document.createElement('button');
 
         buttonClue.addEventListener('click', () => {
-            if (count < 3) {
-                const clues = document.createElement('div');
+            //bara denna raden som ska ändras, det är inget objekt?????????? vad menar han???
+            const currentClue = thisKiller.clues.pop();
+            console.log('currentclue', currentClue)
 
-                clues.innerText = thisKiller.clues[count];
+            if (currentClue) {
+
+                const divClues = document.createElement('div');
+
+                // denna informationen ska komma från servern, göra en req 
+                divClues.innerText = currentClue;
     
-                myKillers.appendChild(clues);
+                myKillers.appendChild(divClues);
+
+                console.log('myKillers', myKillers)
     
                 count += 1;
+
+                // Alt 1. reset canvas och rita en mindre när man klickar, en med mindre height än förra
+                                // Alt 2. andra är att man ritar en clearRect (negativ rektangel) 
+
+                // använda count för räkna poäng; 
+
+                // räkna ut vad jag ska ändra i clearRect för ange hur mycket pixlar som ska försvinna per count
+                ctx.clearRect(0,0, 50 , 20 * count);
+                // console.log("canvas.clientheight", canvas.clientHeight)
+
             } 
         })
     
         // DECLARE WHAT MY h2Name SHOULD CONTAIN
         h2Name.innerText = thisKiller.name;
+        ptAge.innerText = thisKiller.age;
         buttonClue.innerText = 'Get clue';
     
         // WHAT SHOULD MYKILLERS CONTAIN
         myKillers.appendChild(h2Name);
+        myKillers.appendChild(ptAge)
         myKillers.appendChild(buttonClue);
     
         // ADD myKillers TO MY BIG DIV killerInfo
-        killerInfo.appendChild(myKillers);
         killerInfo.appendChild(myKillers);
 
     

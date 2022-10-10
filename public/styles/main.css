@@ -14,4 +14,37 @@
     width: 200px;
     height: 400px;
     border: 2px solid black;
+    margin: 16px;
 }
+
+#murderStory {
+    width: 60%;
+    margin: 20px;
+}
+
+#killerInfo {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    width: 70%;
+    margin: 20px;
+}
+
+#killerInfo button {
+    display: flex;
+    border: none;
+    background-color: black;
+    color: white;
+    padding: 8px;
+    border-radius: 6px;
+    width: 100px;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    margin: 5px;
+}
+
+/* #killerInfo p {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+} */

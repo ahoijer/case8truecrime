@@ -3,17 +3,44 @@
         "id": 0,
         "image": "url",
         "name": "Mrs Agatha",
-        "age": "72",
+        "age": "Age: 72",
         "clues": [
-            "Envy",
-            "Food and drinks",
-            "Poison"
+            "Character Trait: Envy",
+            "Approach: Food and drinks",
+            "Murderweapon: Poison"
         ]
     },
     {
         "id": 1,
         "image": "url",
         "name": "James",
-        "age": "72"
+        "age": "Age: 35",
+        "clues": [
+            "Obsession",
+            "Kills his victims while they sleep",
+            "Fishing line"
+        ]
+    },
+    {
+        "id": 2,
+        "image": "url",
+        "name": "Mr Clark",
+        "age": "Age: 41",
+        "clues": [
+            "Hate society",
+            "Burglary",
+            "Pistol"
+        ]
+    },
+    {
+        "id": 3,
+        "image": "url",
+        "name": "Anastasia",
+        "age": "Age: 26",
+        "clues": [
+            "The vengeful",
+            "Sneaking forward",
+            "Needle with Neurotoxin"
+        ]
     }
 ]
