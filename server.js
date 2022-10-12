@@ -103,6 +103,8 @@ wss.on("connection", (ws) => {
                 broadcastButExclude(wss, ws, objBroadcast);
 
                 break;
+                case "story":
+                break;
             case "clues":
                 
                 let killerObj = {
@@ -117,8 +119,7 @@ wss.on("connection", (ws) => {
                 });
 
                 break
-            case "somethingelse":
-                break;
+            
             default:
                 break;
         }

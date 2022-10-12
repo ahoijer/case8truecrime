@@ -13,8 +13,8 @@ let array = [];
 // variable current user | nickname
 let nickname;
 
-// my json
-let murderhistory;
+// // my json
+// let murderhistory;
 
 // count clues and points
 let count = 0;
@@ -27,20 +27,16 @@ async function Init() {
 
 
     // lägg in en fetch
-    const response = await fetch('thekillers.json')
-    const killer = await response.json()
+    const response1 = await fetch('thekillers.json')
+    const killer = await response1.json()
 
     ctx.fillStyle = 'green';
     ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
 
     console.log('killer', killer);
 
-
-    fetch('murderhistory.json')
-        .then((response) => response.json())
-        .then((data) => {
-            murderhistory = data;
-            console.log('murderhistory', murderhistory);
+    const response2 = await fetch('murderhistory.json')
+    const murderhistory = await response2.json()
 
             function pickRandomStory() {
                 // console.log(murderhistory[Math.floor(Math.random()*murderhistory.length)].murderhistory)
@@ -59,18 +55,12 @@ async function Init() {
 
             pickRandomStory();
 
-        })
 
 
     // DENNA MAP FUNKTION MAPPAR UT MINA MÖRDARE PÅ HEMSIDAN
 
 
     killer.map((thisKiller) => {
-
-        // denna kan läggas ut globalt när jag löst pop()
-
-
-        // sen kan jag lägga en global grej för att förändra min rektangel
 
         //CREATE DIV FOR MY KILLERS
         //skapa ett unikt id för varje myKillers, sen nere i renderclue ska jag kalla på id:t för diven
@@ -86,15 +76,12 @@ async function Init() {
 
         //namnge min prop till något rimligt
 
-        const murder = {
-            killerId: thisKiller.id
-        }
-
-        console.log('killer', murder)
-
+        // const murder = {
+        //     killerId: thisKiller.id
+        // }
 
         buttonClue.addEventListener('click', () => {
-            //bara denna raden som ska ändras, det är inget objekt?????????? vad menar han???
+
             const currentClue = thisKiller.clues.pop();
             console.log('currentclue', currentClue, thisKiller)
 
@@ -126,16 +113,13 @@ async function Init() {
 
         clueAndKiller.innerText = currentClue;
 
-    document.getElementById('m' + thisKiller.id).appendChild(clueAndKiller)
+        document.getElementById('m' + thisKiller.id).appendChild(clueAndKiller)
 
-    console.log('thiskiller id', document.getElementById('m' + thisKiller.id))
+        // console.log('thiskiller id', document.getElementById('m' + thisKiller.id))
 
-    count += 1;
+        count += 1;
 
-    
-    ctx.clearRect(0, 0, 50, 20 * count);
-
-
+        ctx.clearRect(0, 0, 50, 10 * count);
 
     }
     /* event listeners
@@ -159,9 +143,10 @@ async function Init() {
             case "text":
                 renderMessage(obj);
                 break;
+                case "story":
+                    pickRandomStory()
             case "clues":
                 console.log("obj", obj.killer)
-
                 renderClue(obj.killer[0], obj.killer[1]);
                 break;
             default:
@@ -268,3 +253,12 @@ async function Init() {
 }
 
 window.onload = Init;
+
+
+// Saker som inte fungerar:
+// - kan inte längre se mina skickade meddelande mellan chattarna??
+// - Får upp dubbelt av mina clues när det är olika webbläsare som trycker på samma clue
+// - Poäng (canvasen) fortsätter att dra av färg även fast det inte finns fler clues att hämta
+// - Få till poäng (siffror) på min rektangel
+// - Lösa någon form av game over när stapeln är tömd
+// - Lägg till en input för killers som man kan välja när man tror sig ha löst mordet. 
