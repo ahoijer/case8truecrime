@@ -18,7 +18,7 @@ import { parseJSON, broadcast, broadcastButExclude } from "./libs/functions.js";
 /* application variables
 ------------------------------- */
 // set port number >>> make sure client javascript uses same WebSocket port!
-const port = 80; 
+const port = 80;
 
 
 
@@ -92,24 +92,29 @@ wss.on("connection", (ws) => {
         switch (obj.type) {
             case "text":
 
-             // message to clients
-        let objBroadcast = {
-            type: "text",
-            msg: obj.msg,
-            nickname: obj.nickname,
-        };
+                // message to clients
+                let objBroadcast = {
+                    type: "text",
+                    msg: obj.msg,
+                    nickname: obj.nickname,
+                };
 
                 // broadcast to all but this ws...
-        broadcastButExclude(wss, ws, objBroadcast);
+                broadcastButExclude(wss, ws, objBroadcast);
 
                 break;
-                case "clue":
+            case "clues":
+                
+                let killerObj = {
+                    type: "clues",
+                    // killers.find //hitta min clues genom id
+                    killer: obj.payload
+                }
 
-                // i min button click ska skicka till servern, ett meddelande ska skickas (broadcast: message) med JSON.stringify
-                // webscoket.send(JSON.stringify({type: "clue", paylod: killer:id"} inne i min code.js)) skicka till servern
-                // servern får ha koll på poängen, hur många det är från början. vid noll poäng är det gameover 
-                // points kan ligga här inne med , efter jag skickat clue
+                wss.clients.forEach((client) => {
 
+                    client.send(JSON.stringify(killerObj))
+                });
 
                 break
             case "somethingelse":
