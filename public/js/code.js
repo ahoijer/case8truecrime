@@ -8,6 +8,7 @@ const killerInfo = document.getElementById('killerInfo');
 const canvas = document.getElementById('rectangle');
 const ctx = canvas.getContext('2d');
 
+let array = [];
 
 // variable current user | nickname
 let nickname;
@@ -85,19 +86,20 @@ async function Init() {
 
         //namnge min prop till något rimligt
 
-        const killerId = {
-            thisKillerId: thisKiller.id
+        const murder = {
+            killerId: thisKiller.id
         }
 
-        console.log('killer', killerId.killerId)
+        console.log('killer', murder)
 
 
         buttonClue.addEventListener('click', () => {
             //bara denna raden som ska ändras, det är inget objekt?????????? vad menar han???
             const currentClue = thisKiller.clues.pop();
-            console.log('currentclue', currentClue)
+            console.log('currentclue', currentClue, thisKiller)
 
-            websocket.send(JSON.stringify({ type: "clues", payload: currentClue }))
+            websocket.send(JSON.stringify({ type: "clues", payload: [currentClue, thisKiller] }))
+
 
         })
 
@@ -118,38 +120,21 @@ async function Init() {
     })
 
 
-    function renderClue(currentClue) {
+    function renderClue(currentClue, thisKiller) {
         //???? VAD GÖR JAG???
+        const clueAndKiller = document.createElement('div');
 
-        if (currentClue) {
+        clueAndKiller.innerText = currentClue;
 
-            const myKillers = document.getElementById(`m${killer.killerId}`);
-            console.log('killer', killer.killerId)
+    document.getElementById('m' + thisKiller.id).appendChild(clueAndKiller)
 
-            console.log('myKillers', myKillers)
+    console.log('thiskiller id', document.getElementById('m' + thisKiller.id))
 
+    count += 1;
 
-            const divClues = document.createElement('div');
+    
+    ctx.clearRect(0, 0, 50, 20 * count);
 
-            // denna informationen ska komma från servern, göra en req 
-            divClues.innerText = currentClue;
-
-            myKillers.appendChild(divClues);
-
-
-
-            count += 1;
-
-            // Alt 1. reset canvas och rita en mindre när man klickar, en med mindre height än förra
-            // Alt 2. andra är att man ritar en clearRect (negativ rektangel) 
-
-            // använda count för räkna poäng; 
-
-            // räkna ut vad jag ska ändra i clearRect för ange hur mycket pixlar som ska försvinna per count
-            ctx.clearRect(0, 0, 50, 20 * count);
-            // console.log("canvas.clientheight", canvas.clientHeight)
-
-        }
 
 
     }
@@ -175,8 +160,9 @@ async function Init() {
                 renderMessage(obj);
                 break;
             case "clues":
-                renderClue(obj.killer);
-                // console.log("obj", obj.killer)
+                console.log("obj", obj.killer)
+
+                renderClue(obj.killer[0], obj.killer[1]);
                 break;
             default:
                 break;
