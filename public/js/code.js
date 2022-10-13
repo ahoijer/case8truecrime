@@ -41,15 +41,16 @@ async function Init() {
 
         let pTagStory = document.createElement('p');
 
-        let mStory = murderhistory[Math.floor(Math.random() * murderhistory.length)].murderhistory
+        // let mStory = 
+        // murderhistory[Math.floor(Math.random() * murderhistory.length)].murderhistory
 
-        pTagStory.innerText = mStory;
+        pTagStory.innerText = murderhistory[Math.floor(Math.random() * murderhistory.length)].murderhistory
 
         myStory.appendChild(pTagStory);
 
         murderStory.appendChild(myStory);
 
-                websocket.send(JSON.stringify({ type: "story", payload: mStory }))
+                // websocket.send(JSON.stringify({ type: "story", payload: mStory }))
 
 
         return murderhistory[Math.floor(Math.random() * murderhistory.length)].murderhistory;
@@ -60,10 +61,11 @@ async function Init() {
 
 
     getYourStoryBtn.addEventListener('click', () => {
-        pickRandomStory();
-        // let mStory = pickRandomStory();
+        // pickRandomStory();
+        let mStory = pickRandomStory();
+        console.log('mstory', mStory)
 
-        // websocket.send(JSON.stringify({ type: "story", payload: mStory }))
+        websocket.send(JSON.stringify({ type: "story", payload: mStory }))
 
     })
 
@@ -126,15 +128,38 @@ async function Init() {
         //???? VAD GÖR JAG???
         const clueAndKiller = document.createElement('div');
 
+        clueAndKiller.classList.add('thisClue');
+
         clueAndKiller.innerText = clue;
 
-        document.getElementById('m' + killerId).appendChild(clueAndKiller)
+        const allClues = document.querySelectorAll('.thisClue');
+
+        const correctKiller = killer.find(element => element.id === killerId)
+
+        if (allClues.length === 0) {
+            document.getElementById('m' + killerId).appendChild(clueAndKiller)
+        } else {
+            allClues.forEach(element => {
+    
+                // console.log('element', correctKiller.clues.includes(element.innerText))
+    
+                if (correctKiller.clues.includes(element.innerText) && clue !== undefined) {
+    
+                    document.getElementById('m' + killerId).appendChild(clueAndKiller)
+                }
+                
+            });
+        }
+        
+
+
+        console.log('killerId', killer.find(element => element.id === killerId))
 
         // console.log('thiskiller id', document.getElementById('m' + thisKiller.id))
-        // if() {
+        if(killer) {
 
-        //     // inte inträffa om man får ut undefiend
-        // }
+            // inte inträffa om man får ut undefiend
+        }
 
         count += 1;
 
@@ -281,9 +306,9 @@ window.onload = Init;
 // FRÅGOR RÖRANDE MIN SERVER/CLIENT
 // - kan inte längre se mina skickade meddelande mellan chattarna?? - MÅSTE FUNKA - CHECK
 // - Får upp dubbelt av mina clues när det är olika webbläsare som trycker på samma clue - CHECK
-// - måste göra en if på min renderclue så man inte kan klicka mer än 3 gånger per mördare för få en clue.
+// - måste göra en if på min renderclue så man inte kan klicka mer än 3 gånger per mördare för få en clue. CHECK 
 // - När man startar om spelet (Laddar om sidan), vill man att en ny historia ska presenteras och att inte servern behövs stängas ner för att göra nytt spel
-// - Måste få ut samma mordhistoria på både webbläsarna - MÅSTE FUNKA
+// - Måste få ut samma mordhistoria på både webbläsarna - MÅSTE FUNKA , denna är påbörjad!
 
 // FRÅGOR ANGÅENDE MIN CANVAS:
 // - Poäng (canvasen) fortsätter att dra av färg även fast det inte finns fler clues att hämta

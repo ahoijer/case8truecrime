@@ -159,10 +159,10 @@ wss.on("connection", (ws) => {
 
                 let storyObj = {
                     type: "story",
-                    payload: obj.mStory,
+                    payload: obj.payload,
                 }
 
-                console.log('obj.mystory', obj.mStory)
+                console.log('obj.mystory', obj.payload)
 
                 wss.clients.forEach((client) => {
 
