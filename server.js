@@ -13,6 +13,58 @@ import { parseJSON, broadcast, broadcastButExclude } from "./libs/functions.js";
 
 // import fs from "fs";
 
+// import murderers 
+const murderers = [
+    {
+        "id": 0,
+        "image": "url",
+        "name": "Mrs Agatha",
+        "age": "Age: 72",
+        "clues": [
+            "Character Trait: Envy",
+            "Approach: Food and drinks",
+            "Murderweapon: Poison"
+        ]
+    },
+    {
+        "id": 1,
+        "image": "url",
+        "name": "James",
+        "age": "Age: 35",
+        "clues": [
+            "Obsession",
+            "Kills his victims while they sleep",
+            "Fishing line"
+        ]
+    },
+    {
+        "id": 2,
+        "image": "url",
+        "name": "Mr Clark",
+        "age": "Age: 41",
+        "clues": [
+            "Hate society",
+            "Burglary",
+            "Pistol"
+        ]
+    },
+    {
+        "id": 3,
+        "image": "url",
+        "name": "Anastasia",
+        "age": "Age: 26",
+        "clues": [
+            "The vengeful",
+            "Sneaking forward",
+            "Needle with Neurotoxin"
+        ]
+    }
+]
+// console.log('murderers', murderers)
+
+
+// mina tomma array
+// const popClues = [];
 
 
 /* application variables
@@ -104,14 +156,40 @@ wss.on("connection", (ws) => {
 
                 break;
                 case "story":
+
+                let storyObj = {
+                    type: "story",
+                    payload: obj.mStory,
+                }
+
+                console.log('obj.mystory', obj.mStory)
+
+                wss.clients.forEach((client) => {
+
+                    client.send(JSON.stringify(storyObj))
+                });
+
                 break;
             case "clues":
-                
+            
+                // använd i obj.paylod.killerId(murder) där är id:t för nuvarande möte, den vill jag hämta nästa clue från med pop() (find måste vara involverad i denna lösning)
+
+                // const currentClue = thisKiller.clues.pop();
+
+                const findMurderer = murderers.find(element => element.id === obj.payload.killerId)
+
+                const clue = findMurderer.clues.pop();
+
+                // popClues.push(clue);
+
+                // när den ena är tom får den pusha in den andra, hitta en lösning på detta. 
+
                 let killerObj = {
                     type: "clues",
-                    // killers.find //hitta min clues genom id
-                    killer: obj.payload
+                    payload: {clue, killerId: findMurderer.id}
                 }
+
+                // console.log('id', findMurderer)
 
                 wss.clients.forEach((client) => {
 

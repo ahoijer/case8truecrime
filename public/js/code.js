@@ -5,16 +5,13 @@ const setNickname = document.querySelector("#setNickname");
 const murderStory = document.getElementById('murderStory');
 const killerInfo = document.getElementById('killerInfo');
 
+const getYourStoryBtn = document.getElementById('getYourStory');
+
 const canvas = document.getElementById('rectangle');
 const ctx = canvas.getContext('2d');
 
-let array = [];
-
 // variable current user | nickname
 let nickname;
-
-// // my json
-// let murderhistory;
 
 // count clues and points
 let count = 0;
@@ -33,28 +30,42 @@ async function Init() {
     ctx.fillStyle = 'green';
     ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
 
-    console.log('killer', killer);
-
     const response2 = await fetch('murderhistory.json')
     const murderhistory = await response2.json()
 
-            function pickRandomStory() {
-                // console.log(murderhistory[Math.floor(Math.random()*murderhistory.length)].murderhistory)
-                const myStory = document.createElement('div');
+    console.log('murderhistory', murderhistory)
 
-                let pTagStory = document.createElement('p');
+    function pickRandomStory() {
+        // console.log(murderhistory[Math.floor(Math.random()*murderhistory.length)].murderhistory)
+        const myStory = document.createElement('div');
 
-                pTagStory.innerText = murderhistory[Math.floor(Math.random() * murderhistory.length)].murderhistory;
+        let pTagStory = document.createElement('p');
 
-                myStory.appendChild(pTagStory);
+        let mStory = murderhistory[Math.floor(Math.random() * murderhistory.length)].murderhistory
 
-                murderStory.appendChild(myStory);
+        pTagStory.innerText = mStory;
 
-                return murderhistory[Math.floor(Math.random() * murderhistory.length)].murderhistory;
-            }
+        myStory.appendChild(pTagStory);
 
-            pickRandomStory();
+        murderStory.appendChild(myStory);
 
+                websocket.send(JSON.stringify({ type: "story", payload: mStory }))
+
+
+        return murderhistory[Math.floor(Math.random() * murderhistory.length)].murderhistory;
+
+    }
+
+    // pickRandomStory();
+
+
+    getYourStoryBtn.addEventListener('click', () => {
+        pickRandomStory();
+        // let mStory = pickRandomStory();
+
+        // websocket.send(JSON.stringify({ type: "story", payload: mStory }))
+
+    })
 
 
     // DENNA MAP FUNKTION MAPPAR UT MINA MÖRDARE PÅ HEMSIDAN
@@ -76,16 +87,20 @@ async function Init() {
 
         //namnge min prop till något rimligt
 
-        // const murder = {
-        //     killerId: thisKiller.id
-        // }
+        const murderer = {
+            killerId: thisKiller.id
+        }
+        // Murderer visar fyra objekt med ett varsitt id 0-3.
+        console.log('murderer', murderer)
 
         buttonClue.addEventListener('click', () => {
 
-            const currentClue = thisKiller.clues.pop();
-            console.log('currentclue', currentClue, thisKiller)
+            // const currentClue = thisKiller.clues.pop();
+            // console.log('currentclue', currentClue, thisKiller)
 
-            websocket.send(JSON.stringify({ type: "clues", payload: [currentClue, thisKiller] }))
+            // här menar Henry att jag bör stoppa in Id:t för mördaren istället och sen göra en pop på server-sidan för att inte få ut dubbletter på min DOM
+            // websocket.send(JSON.stringify({ type: "clues", payload: [currentClue, thisKiller]}))
+            websocket.send(JSON.stringify({ type: "clues", payload: murderer }))
 
 
         })
@@ -107,15 +122,19 @@ async function Init() {
     })
 
 
-    function renderClue(currentClue, thisKiller) {
+    function renderClue(killerId, clue) {
         //???? VAD GÖR JAG???
         const clueAndKiller = document.createElement('div');
 
-        clueAndKiller.innerText = currentClue;
+        clueAndKiller.innerText = clue;
 
-        document.getElementById('m' + thisKiller.id).appendChild(clueAndKiller)
+        document.getElementById('m' + killerId).appendChild(clueAndKiller)
 
         // console.log('thiskiller id', document.getElementById('m' + thisKiller.id))
+        // if() {
+
+        //     // inte inträffa om man får ut undefiend
+        // }
 
         count += 1;
 
@@ -143,11 +162,12 @@ async function Init() {
             case "text":
                 renderMessage(obj);
                 break;
-                case "story":
-                    pickRandomStory()
+            case "story":
+                // murderStory.innertext = obj.payload
+                console.log('obj', obj.payload)
             case "clues":
-                console.log("obj", obj.killer)
-                renderClue(obj.killer[0], obj.killer[1]);
+                // console.log("obj", obj.payload.killerId.clue)
+                renderClue(obj.payload.killerId, obj.payload.clue);
                 break;
             default:
                 break;
@@ -176,6 +196,7 @@ async function Init() {
             // chat message object
             let objMessage = {
                 msg: inputText.value,
+                type: "text",
                 nickname: nickname,
             };
 
@@ -255,10 +276,22 @@ async function Init() {
 window.onload = Init;
 
 
-// Saker som inte fungerar:
-// - kan inte längre se mina skickade meddelande mellan chattarna??
-// - Får upp dubbelt av mina clues när det är olika webbläsare som trycker på samma clue
+// Saker som inte fungerar och som jag vill ska fungera:
+
+// FRÅGOR RÖRANDE MIN SERVER/CLIENT
+// - kan inte längre se mina skickade meddelande mellan chattarna?? - MÅSTE FUNKA - CHECK
+// - Får upp dubbelt av mina clues när det är olika webbläsare som trycker på samma clue - CHECK
+// - måste göra en if på min renderclue så man inte kan klicka mer än 3 gånger per mördare för få en clue.
+// - När man startar om spelet (Laddar om sidan), vill man att en ny historia ska presenteras och att inte servern behövs stängas ner för att göra nytt spel
+// - Måste få ut samma mordhistoria på både webbläsarna - MÅSTE FUNKA
+
+// FRÅGOR ANGÅENDE MIN CANVAS:
 // - Poäng (canvasen) fortsätter att dra av färg även fast det inte finns fler clues att hämta
+// - varför töms min canvas mer på första klicket än på de andra klicken?
 // - Få till poäng (siffror) på min rektangel
 // - Lösa någon form av game over när stapeln är tömd
-// - Lägg till en input för killers som man kan välja när man tror sig ha löst mordet. 
+
+// ÖVRIGT
+// - Fixa en lösning för  min button "solve this crime" så man kan få ut om man löst mordet eller fått game over
+// - Bör jag fixa en typ av inlogg?
+// - Hade velat ha en startsida där man skriver in Player 1 och Player 2 som sen ska visas visuellt i chatten. Eller finns det en enklare lösning?
