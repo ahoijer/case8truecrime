@@ -1,7 +1,7 @@
 [
     {
         "id": 0,
-        "image": "url",
+        "img": "MrsAgatha.png",
         "name": "Mrs Agatha",
         "age": "Age: 72",
         "clues": [

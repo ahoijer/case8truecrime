@@ -1,3 +1,4 @@
+
 // DOM elements
 const inputText = document.getElementById("inputText");
 const setNickname = document.querySelector("#setNickname");
@@ -9,6 +10,14 @@ const getYourStoryBtn = document.getElementById('getYourStory');
 
 const canvas = document.getElementById('rectangle');
 const ctx = canvas.getContext('2d');
+
+var splashScreen = document.querySelector('.splash');
+splashScreen.addEventListener('click', () => {
+    splashScreen.style.opacity = 0;
+    setTimeout(() => {
+        splashScreen.classList.add('hidden')
+    }, 610)
+})
 
 // variable current user | nickname
 let nickname;
@@ -50,7 +59,7 @@ async function Init() {
 
         murderStory.appendChild(myStory);
 
-                // websocket.send(JSON.stringify({ type: "story", payload: mStory }))
+        // websocket.send(JSON.stringify({ type: "story", payload: mStory }))
 
 
         return murderhistory[Math.floor(Math.random() * murderhistory.length)].murderhistory;
@@ -82,16 +91,19 @@ async function Init() {
 
 
         // CREATE H2 TAG FOR THE NAME OF THE KILLER
+        // let img = document.createElement('<img src="MrsAgatha.png">')
         let h2Name = document.createElement('h2');
         let ptAge = document.createElement('p');
         let buttonClue = document.createElement('button');
-
 
         //namnge min prop till något rimligt
 
         const murderer = {
             killerId: thisKiller.id
         }
+
+        buttonClue.setAttribute("id", thisKiller.id);
+
         // Murderer visar fyra objekt med ett varsitt id 0-3.
         console.log('murderer', murderer)
 
@@ -108,11 +120,13 @@ async function Init() {
         })
 
         // DECLARE WHAT MY h2Name SHOULD CONTAIN
+        // img.innerText = thisKiller.img;
         h2Name.innerText = thisKiller.name;
         ptAge.innerText = thisKiller.age;
         buttonClue.innerText = 'Get clue';
 
         // WHAT SHOULD MYKILLERS CONTAIN
+        // myKillers.appendChild(img);
         myKillers.appendChild(h2Name);
         myKillers.appendChild(ptAge)
         myKillers.appendChild(buttonClue);
@@ -128,38 +142,9 @@ async function Init() {
         //???? VAD GÖR JAG???
         const clueAndKiller = document.createElement('div');
 
-        clueAndKiller.classList.add('thisClue');
-
         clueAndKiller.innerText = clue;
 
-        const allClues = document.querySelectorAll('.thisClue');
-
-        const correctKiller = killer.find(element => element.id === killerId)
-
-        if (allClues.length === 0) {
-            document.getElementById('m' + killerId).appendChild(clueAndKiller)
-        } else {
-            allClues.forEach(element => {
-    
-                // console.log('element', correctKiller.clues.includes(element.innerText))
-    
-                if (correctKiller.clues.includes(element.innerText) && clue !== undefined) {
-    
-                    document.getElementById('m' + killerId).appendChild(clueAndKiller)
-                }
-                
-            });
-        }
-        
-
-
-        console.log('killerId', killer.find(element => element.id === killerId))
-
-        // console.log('thiskiller id', document.getElementById('m' + thisKiller.id))
-        if(killer) {
-
-            // inte inträffa om man får ut undefiend
-        }
+        document.getElementById('m' + killerId).appendChild(clueAndKiller)
 
         count += 1;
 
@@ -191,13 +176,18 @@ async function Init() {
                 // murderStory.innertext = obj.payload
                 console.log('obj', obj.payload)
             case "clues":
-                // console.log("obj", obj.payload.killerId.clue)
+                if (obj.payload.clue === undefined) {
+                    document.getElementById(obj.payload.killerId[0]).disabled = true;
+                }
+
                 renderClue(obj.payload.killerId, obj.payload.clue);
+
+                // console.log("obj", obj.payload.killerId.clue)
+
                 break;
             default:
                 break;
         }
-
         // ...
     });
 
@@ -306,9 +296,9 @@ window.onload = Init;
 // FRÅGOR RÖRANDE MIN SERVER/CLIENT
 // - kan inte längre se mina skickade meddelande mellan chattarna?? - MÅSTE FUNKA - CHECK
 // - Får upp dubbelt av mina clues när det är olika webbläsare som trycker på samma clue - CHECK
-// - måste göra en if på min renderclue så man inte kan klicka mer än 3 gånger per mördare för få en clue. CHECK 
+// - måste göra en if på min renderclue så man inte kan klicka mer än 3 gånger per mördare för få en clue. CHECK
 // - När man startar om spelet (Laddar om sidan), vill man att en ny historia ska presenteras och att inte servern behövs stängas ner för att göra nytt spel
-// - Måste få ut samma mordhistoria på både webbläsarna - MÅSTE FUNKA , denna är påbörjad!
+// - Måste få ut samma mordhistoria på både webbläsarna - MÅSTE FUNKA , PÅBÖRJAD
 
 // FRÅGOR ANGÅENDE MIN CANVAS:
 // - Poäng (canvasen) fortsätter att dra av färg även fast det inte finns fler clues att hämta

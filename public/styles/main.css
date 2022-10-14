@@ -48,3 +48,30 @@
     justify-content: center;
     text-align: center;
 } */
+
+.splash {
+    cursor: pointer;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    height: 100%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0,0,0);
+    transition: all ease-in-out 600ms;
+}
+
+.hidden{
+    transform: 0.5s;
+    display: none;
+}
+
+.splash-header{
+    height: 90%;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

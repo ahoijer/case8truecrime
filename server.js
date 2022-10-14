@@ -162,7 +162,7 @@ wss.on("connection", (ws) => {
                     payload: obj.payload,
                 }
 
-                console.log('obj.mystory', obj.payload)
+                console.log('obj.history', obj.payload)
 
                 wss.clients.forEach((client) => {
 
