@@ -36,7 +36,7 @@ async function Init() {
     const response1 = await fetch('thekillers.json')
     const killer = await response1.json()
 
-    ctx.fillStyle = 'green';
+    ctx.fillStyle = '#333C36';
     ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
 
     const response2 = await fetch('murderhistory.json')
@@ -91,7 +91,7 @@ async function Init() {
 
 
         // CREATE H2 TAG FOR THE NAME OF THE KILLER
-        // let img = document.createElement('<img src="MrsAgatha.png">')
+        let img = document.createElement('img')
         let h2Name = document.createElement('h2');
         let ptAge = document.createElement('p');
         let buttonClue = document.createElement('button');
@@ -120,13 +120,13 @@ async function Init() {
         })
 
         // DECLARE WHAT MY h2Name SHOULD CONTAIN
-        // img.innerText = thisKiller.img;
+        img.innerText = thisKiller.img;
         h2Name.innerText = thisKiller.name;
         ptAge.innerText = thisKiller.age;
         buttonClue.innerText = 'Get clue';
 
         // WHAT SHOULD MYKILLERS CONTAIN
-        // myKillers.appendChild(img);
+        myKillers.appendChild(img);
         myKillers.appendChild(h2Name);
         myKillers.appendChild(ptAge)
         myKillers.appendChild(buttonClue);
@@ -137,6 +137,14 @@ async function Init() {
 
     })
 
+    function drawText(ctx, str, font, align, x, y) {
+        ctx.font = font;
+        ctx.fillStyle = 'black';
+        ctx.textAlign = align;
+        ctx.fillText(str, x, y);
+    }
+
+    let frameNum = 0;
 
     function renderClue(killerId, clue) {
         //???? VAD GÖR JAG???
@@ -148,7 +156,10 @@ async function Init() {
 
         count += 1;
 
-        ctx.clearRect(0, 0, 50, 10 * count);
+        drawText(ctx, `points: ${frameNum}`, '24px serif', 'start', 2, 24);
+        ctx.clearRect(0, 0, 50, 20 * count);
+
+        drawText(ctx, "Game Over", '48px serif', 'center');
 
     }
     /* event listeners
@@ -233,8 +244,28 @@ async function Init() {
 
     /* functions...
     ------------------------------- */
+    // function openForm() {
+    //     document.getElementById("myForm").style.display = "block";
+    // }
 
+    // openForm()
 
+    document.getElementById("openForm").addEventListener('click',function ()
+    {
+        document.getElementById("myForm").style.display = "block";
+     //validation code to see State field is mandatory.  
+    }  ); 
+
+    document.getElementById("closeForm").addEventListener('click',function ()
+    {
+        document.getElementById("myForm").style.display = "none";
+     //validation code to see State field is mandatory.  
+    }  ); 
+    // function closeForm() {
+    //     document.getElementById("myForm").style.display = "none";
+    // }
+
+    // closeForm()
     /**
      * parse JSON
      *

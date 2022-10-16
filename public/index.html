@@ -13,13 +13,29 @@
 
 <body>
     <div class="container-mainpage">
+        
+        <div class="container-murderStory">
 
-        <button id="getYourStory"></button>
+        <button id="getYourStory">Get your story</button>
         <!-- DIV FOR MY MURDER HISTORY -->
+
         <div id="murderStory"></div>
+    </div>
+
+        <!-- TRYING OUT CANVAS -->
+        <!-- addeventlistner för att rita om canvas när man trycker på clue -->
+        <!-- när man förlorar ett poäng så ritar man om -->
+        <!-- x,y värden, fillstyle, width, height? -->
+        <div class="container-score">
+            <div class="score">
+                <canvas id="rectangle" width="50" height="200" style="border:1px solid black"></canvas>
+            </div>
+        </div>
 
         <!-- Div for my killer information -->
+        <div class="container-killerInfo">
         <div id="killerInfo"></div>
+    </div>
 
         <div class="selectKiller">
             <label for="whoKiller">Who is the killer?:</label>
@@ -34,46 +50,49 @@
             <button type="submit">Solve this crime!</button>
 
         </div>
-        <!-- TRYING OUT CANVAS -->
-        <!-- addeventlistner för att rita om canvas när man trycker på clue -->
-        <!-- när man förlorar ett poäng så ritar man om -->
-        <!-- x,y värden, fillstyle, width, height? -->
-        <div class="stapel">
-            <canvas id="rectangle" width="50" height="200" style="border:1px solid black"></canvas>
-        </div>
+
 
         <!-- server status -->
         <div id="status"></div>
 
-        <div id="container-chat">
-            <!-- input nickname -->
-            <input type="text" id="nickname" placeholder="Enter nickname">
-            <button id="setNickname">Set nickname</button>
-
-
-            <!-- input chat -->
-            <input type="text" id="inputText" placeholder="Type and press Enter" disabled>
-
-            <!-- DOM chat -->
-            <ul id="conversation"></ul>
-
-            <!-- use template to set html structure for a message -->
-            <template id="message">
-
-                <li>
-                    <span></span>
-                    <p></p>
-                    <time datetime=""></time>
-                </li>
-
-            </template>
-        </div>
-    </div>
-
-    <!-- div for my splasch screen -->
+          <!-- div for my splasch screen -->
     <div class="splash">
         <h1 class="splash-header">Click to start Crime Time</h1>
     </div>
+
+        <button class="open-button" id="openForm">Chat</button>
+
+        <div class="chat-popup" id="myForm">
+            <div class="form-container">
+                <div id="container-chat">
+                    <h1>Chat</h1>
+                    <!-- input nickname -->
+                    <input type="text" id="nickname" placeholder="Enter nickname">
+                    <button id="setNickname">Set nickname</button>
+
+
+                    <!-- input chat -->
+                    <input type="text" id="inputText" placeholder="Type and press Enter" disabled>
+
+                    <!-- DOM chat -->
+                    <ul id="conversation"></ul>
+
+                    <!-- use template to set html structure for a message -->
+                    <template id="message">
+
+                        <li>
+                            <span></span>
+                            <p></p>
+                            <time datetime=""></time>
+                        </li>
+
+                    </template>
+                </div>
+                <button class="btn cancel" id="closeForm">Close</button>
+            <div>
+        </div>
+    </div>
+  
 
     <!-- my js -->
     <script src="js/code.js"></script>
