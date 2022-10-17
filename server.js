@@ -63,7 +63,7 @@ const murderers = [
 
 const murderhistory = [{
     "id": 0,
-    "murderhistory": "The police arrive at a diner where, at first glance, it appears to be a man who has had a heart attack. The man was big and you can tell he hasn't lived a healthy life so a heart attack is very likely. You can't see any external injuries on him so no crime is suspected. Well after the autopsy, a suspicion was raised when it was clearly seen that he had high levels of rat poison in his body, the food was checked from the diner which did not show any poison. He therefore cannot have been poisoned at the diner. Further investigation showed that the man was homeless and that he lived on and off in both shelters and also various cheap boarding houses. Above all, it was a boarding house which was particularly interesting as he had lived there for the past year. It was run by a person who later turned out to have poisoned several people who lived at the boarding house. The police heard from the neighbors that they noticed a lot of activity in the backyard where some digging had been done. The police were able to find up to 10 bodies after a large excavation.Can you solve the case? Who is the killer?",
+    "murderhistory": "The police arrive at a diner where, at first glance, it appears to be a man who has had a heart attack. The man was big and you can tell he hasn't lived a healthy life so a heart attack is very likely. You can't see any external injuries on him so no crime is suspected. Well after the autopsy, a suspicion was raised when it was clearly seen that he had high levels of rat poison in his body, the food was checked from the diner which did not show any poison. He therefore cannot have been poisoned at the diner. Further investigation showed that the man was homeless and that he lived on and off in both shelters and also various cheap boarding houses. Above all, it was a boarding house which was particularly interesting as he had lived there for the past year. Can you solve the case? Who is the killer?",
     "killer": 0
 },
 {
@@ -73,15 +73,16 @@ const murderhistory = [{
 },
 {
     "id": 2,
-    "murderhistory": "The police arrive at a diner where, at first glance, it appears to be a man who has had a heart attack. The man was big and you can tell he hasn't lived a healthy life so a heart attack is very likely. You can't see any external injuries on him so no crime is suspected. Well after the autopsy, a suspicion was raised when it was clearly seen that he had high levels of rat poison in his body, the food was checked from the diner which did not show any poison. He therefore cannot have been poisoned at the diner. Further investigation showed that the man was homeless and that he lived on and off in both shelters and also various cheap boarding houses. Above all, it was a boarding house which was particularly interesting as he had lived there for the past year. It was run by a person who later turned out to have poisoned several people who lived at the boarding house. The police heard from the neighbors that they noticed a lot of activity in the backyard where some digging had been done. The police were able to find up to 10 bodies after a large excavation.Can you solve the case? Who is the killer?",
+    "murderhistory": "empty",
     "killer": 2
 },
 {
     "id": 3,
-    "murderhistory": "The police arrive at a diner where, at first glance, it appears to be a man who has had a heart attack. The man was big and you can tell he hasn't lived a healthy life so a heart attack is very likely. You can't see any external injuries on him so no crime is suspected. Well after the autopsy, a suspicion was raised when it was clearly seen that he had high levels of rat poison in his body, the food was checked from the diner which did not show any poison. He therefore cannot have been poisoned at the diner. Further investigation showed that the man was homeless and that he lived on and off in both shelters and also various cheap boarding houses. Above all, it was a boarding house which was particularly interesting as he had lived there for the past year. It was run by a person who later turned out to have poisoned several people who lived at the boarding house. The police heard from the neighbors that they noticed a lot of activity in the backyard where some digging had been done. The police were able to find up to 10 bodies after a large excavation.Can you solve the case? Who is the killer?",
+    "murderhistory": "empty",
     "killer": 3
 }
 ]
+
 // console.log('murderers', murderers)
 
 
@@ -136,6 +137,7 @@ server.on("upgrade", (req, socket, head) => {
     });
 });
 
+let cluePoint = 100;
 
 
 /* listen on new websocket connections
@@ -155,11 +157,13 @@ wss.on("connection", (ws) => {
         );
     });
 
+
     // message event
     ws.on("message", (data) => {
         // console.log('Message received: %s', data);
 
         let obj = parseJSON(data);
+
 
         // todo
         // use obj property 'type' to handle message event
@@ -192,32 +196,58 @@ wss.on("connection", (ws) => {
                 });
 
                 break;
+
+
             case "clues":
             
                 // använd i obj.paylod.killerId(murder) där är id:t för nuvarande möte, den vill jag hämta nästa clue från med pop() (find måste vara involverad i denna lösning)
 
                 // const currentClue = thisKiller.clues.pop();
 
-                const findMurderer = murderers.find(element => element.id === obj.payload.killerId)
 
-                const clue = findMurderer.clues.pop();
+                if (cluePoint > 10) {
+                    const findMurderer = murderers.find(element => element.id === obj.payload.killerId)
+
+                    const clue = findMurderer.clues.pop();
+
+                    cluePoint = cluePoint - 20;
+
+                    let killerObj = {
+                        type: "clues",
+                        payload: {clue, killerId: findMurderer.id, points: cluePoint}
+                    }
+
+
+                    wss.clients.forEach((client) => {
+
+                        client.send(JSON.stringify(killerObj))
+                    });
+
+                } else { 
+                    let gameOverObject = {
+                        type: "gameOver",
+                    }
+
+                    wss.clients.forEach((client) => {
+
+                        client.send(JSON.stringify(gameOverObject))
+                    });
+                }
+
+                
+
+                
 
                 // Ha en räknare här så varje gång man frågar om en clue så ska den dra av poäng från canvasen 
                 // if my counter är mindre än 10 då kan vi fortsätta ge clue, else , skicka en type "Game Over"
 
                 // popClues.push(clue);
 
-                let killerObj = {
-                    type: "clues",
-                    payload: {clue, killerId: findMurderer.id}
-                }
+             
 
                 // console.log('id', findMurderer)
 
-                wss.clients.forEach((client) => {
-
-                    client.send(JSON.stringify(killerObj))
-                });
+               
 
                 break
             

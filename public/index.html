@@ -21,6 +21,11 @@
 <body>
     <div class="container-mainpage">
 
+        <div class="top-container">
+        <h1>Time to solve a murder</h1>
+        <p>Read the story and get your clues, remember, every clue gives you less score</p>
+    </div>
+
         <div class="container-murderStory">
 
             <div class="button-story">
@@ -32,21 +37,12 @@
             </div>
         </div>
 
-        <!-- TRYING OUT CANVAS -->
-        <!-- addeventlistner för att rita om canvas när man trycker på clue -->
-        <!-- när man förlorar ett poäng så ritar man om -->
-        <!-- x,y värden, fillstyle, width, height? -->
-        <div class="container-score">
-            <div class="score">
-                <canvas id="rectangle" width="50" height="200" style="border:1px solid black"></canvas>
-            </div>
-        </div>
+       
 
         <!-- Div for my killer information -->
         <div class="container-killerInfo">
             <div id="killerInfo"></div>
         </div>
-
         <div class="selectKiller">
             <label for="whoKiller">Who is the killer?</label>
 
@@ -58,10 +54,18 @@
             </select>
 
             <button type="submit">Solve this crime!</button>
-
         </div>
 
-
+             <!-- TRYING OUT CANVAS -->
+        <!-- addeventlistner för att rita om canvas när man trycker på clue -->
+        <!-- när man förlorar ett poäng så ritar man om -->
+        <!-- x,y värden, fillstyle, width, height? -->
+        <div class="container-score">
+            <h3>Don't empty the rectangle</h3>
+            <div class="score">
+                <canvas id="rectangle" width="50" height="200" style="border:1px solid black"></canvas>
+            </div>
+        </div>
         <!-- server status -->
         <div id="status"></div>
 

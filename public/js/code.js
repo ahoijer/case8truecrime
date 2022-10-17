@@ -99,7 +99,7 @@ async function Init() {
         })
 
         // DECLARE WHAT MY h2Name SHOULD CONTAIN
-        img.innerText = thisKiller.img;
+        img.src = thisKiller.img;
         h2Name.innerText = thisKiller.name;
         ptAge.innerText = thisKiller.age;
         buttonClue.innerText = 'Get clue';
@@ -116,16 +116,16 @@ async function Init() {
 
     })
 
-    function drawText(ctx, str, font, align, x, y) {
-        ctx.font = font;
-        ctx.fillStyle = 'black';
-        ctx.textAlign = align;
-        ctx.fillText(str, x, y);
-    }
+    // function drawText(ctx, str, font, align, x, y) {
+    //     ctx.font = font;
+    //     ctx.fillStyle = 'black';
+    //     ctx.textAlign = align;
+    //     ctx.fillText(str, x, y);
+    // }
 
-    let frameNum = 0;
+    // let frameNum = 0;
 
-    function renderClue(killerId, clue) {
+    function renderClue(killerId, clue, cluePoint) {
         //???? VAD GÖR JAG???
         const clueAndKiller = document.createElement('div');
 
@@ -133,13 +133,10 @@ async function Init() {
 
         document.getElementById('m' + killerId).appendChild(clueAndKiller)
 
-        count += 1;
+        const barHeight = 200 - (200 * cluePoint / 100);
 
-        drawText(ctx, `points: ${frameNum}`, '24px serif', 'start', 2, 24);
-        ctx.clearRect(0, 0, 50, 20 * count);
-
-        drawText(ctx, "Game Over", '48px serif', 'center');
-
+        ctx.clearRect(0, 0, 50, barHeight);
+        console.log('cluePoint', cluePoint)
     }
     /* event listeners
     ------------------------------- */
@@ -170,10 +167,13 @@ renderStory(obj.payload.murderHistory)
                     document.getElementById(obj.payload.killerId[0]).disabled = true;
                 }
 
-                renderClue(obj.payload.killerId, obj.payload.clue);
+                renderClue(obj.payload.killerId, obj.payload.clue, obj.payload.points);
 
                 // console.log("obj", obj.payload.killerId.clue)
 
+                break;
+                case "gameOver":
+                    console.log('gameover')
                 break;
             default:
                 break;
@@ -286,7 +286,7 @@ renderStory(obj.payload.murderHistory)
             .setAttribute("datetime", objDate.toISOString());
 
         // render using prepend method - last message first
-        document.getElementById("conversation").prepend(newMsg);
+        document.getElementById("conversation").append(newMsg);
     }
 
 
@@ -302,15 +302,16 @@ window.onload = Init;
 // - Får upp dubbelt av mina clues när det är olika webbläsare som trycker på samma clue - CHECK
 // - måste göra en if på min renderclue så man inte kan klicka mer än 3 gånger per mördare för få en clue. CHECK
 // - När man startar om spelet (Laddar om sidan), vill man att en ny historia ska presenteras och att inte servern behövs stängas ner för att göra nytt spel
-// - Måste få ut samma mordhistoria på både webbläsarna - MÅSTE FUNKA , PÅBÖRJAD
+// - Måste få ut samma mordhistoria på både webbläsarna - CHECK
 
 // FRÅGOR ANGÅENDE MIN CANVAS:
-// - Poäng (canvasen) fortsätter att dra av färg även fast det inte finns fler clues att hämta
-// - varför töms min canvas mer på första klicket än på de andra klicken?
-// - Få till poäng (siffror) på min rektangel
-// - Lösa någon form av game over när stapeln är tömd
+// - Poäng (canvasen) fortsätter att dra av färg även fast det inte finns fler clues att hämta - CHECK
+// - varför töms min canvas mer på första klicket än på de andra klicken? - CHECK
+// - Få till poäng (siffror) på min rektangel - PÅBÖRJAD
+// - Lösa någon form av game over när stapeln är tömd - PÅBÖRJAD
 
 // ÖVRIGT
 // - Fixa en lösning för  min button "solve this crime" så man kan få ut om man löst mordet eller fått game over
-// - Bör jag fixa en typ av inlogg?
 // - Hade velat ha en startsida där man skriver in Player 1 och Player 2 som sen ska visas visuellt i chatten. Eller finns det en enklare lösning?
+// - Skriva klart två till mordhistorier
+// - Flytta ordningen på mina clues

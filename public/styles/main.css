@@ -26,6 +26,21 @@ body {
     color: #0F0407;
 }
 
+.top-container {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    justify-content: center;
+    text-align: center;
+}
+
+.top-container h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #333C36;
+    margin-top: 20px;
+}
 
 
 /* STYLING FOR MY MURDERSTORYS */
@@ -34,7 +49,6 @@ body {
     display: grid;
     grid-template-rows: 1fr 2fr;
     justify-content: center;
-    margin: 30px;
 }
 
 .button-story {
@@ -42,7 +56,6 @@ body {
     justify-content: center;
     text-align: center;
     align-items: center;
-    margin: 20px;
 }
 
 #getYourStory {
@@ -74,7 +87,6 @@ body {
 
 #murderStory {
     width: 80%;
-    height: 80%;
     margin: 20px;
 }
 
@@ -86,8 +98,8 @@ body {
 }
 
 img {
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
 }
 
 #killerInfo {
@@ -123,16 +135,27 @@ img {
 /* STYLING FOR MY CANVAS RECTANGLE */
 
 .container-score {
+    display: grid;
+    grid-template-rows: 1fr 4fr;
     position: relative;
 }
 
 .score {
-    display: flex;
-    position: absolute;
-    right: 8%;
+    display: grid;
+    justify-content: center;
+    align-items: center;
 }
 
 /* STYLING FOR MY SELECT KILLER AND SOLVE THIS CRIME */
+
+/* .container-selectAndPoints {
+    display: grid;
+    grid-template-columns:  1fr 1fr;
+    margin-top: 30px;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+} */
 
 .selectKiller {
     margin: 50px;
