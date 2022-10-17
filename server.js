@@ -60,6 +60,28 @@ const murderers = [
         ]
     }
 ]
+
+const murderhistory = [{
+    "id": 0,
+    "murderhistory": "The police arrive at a diner where, at first glance, it appears to be a man who has had a heart attack. The man was big and you can tell he hasn't lived a healthy life so a heart attack is very likely. You can't see any external injuries on him so no crime is suspected. Well after the autopsy, a suspicion was raised when it was clearly seen that he had high levels of rat poison in his body, the food was checked from the diner which did not show any poison. He therefore cannot have been poisoned at the diner. Further investigation showed that the man was homeless and that he lived on and off in both shelters and also various cheap boarding houses. Above all, it was a boarding house which was particularly interesting as he had lived there for the past year. It was run by a person who later turned out to have poisoned several people who lived at the boarding house. The police heard from the neighbors that they noticed a lot of activity in the backyard where some digging had been done. The police were able to find up to 10 bodies after a large excavation.Can you solve the case? Who is the killer?",
+    "killer": 0
+},
+{
+    "id": 1,
+    "murderhistory": "The police are called to a home in a block of flats where the houses are close together. Inside the house they find a woman named Sophia, dead in her bed, it is the woman's sister who called and summoned the police to the scene. The sister is hysterical and has trouble getting words out when the police try to ask her a couple of questions that might give some clue to who the suspect might be. They can't get much out of her other than she came to her sister's house after work called and asked if she had heard anything from Sophia since she hadn't turned up at work that morning. Sophia never misses a day of work, at least not without calling beforehand, which created anxiety in the workplace. The sister went straight to Sophia's house, the door was locked but the car was still parked outside the house. She had to use her spare key to open the lock and enter the house. She called the police immediately when she found Sophia in her bed, the chest was not moving and the lips were completely blue, she could tell she was dead.",
+    "killer": 1
+},
+{
+    "id": 2,
+    "murderhistory": "The police arrive at a diner where, at first glance, it appears to be a man who has had a heart attack. The man was big and you can tell he hasn't lived a healthy life so a heart attack is very likely. You can't see any external injuries on him so no crime is suspected. Well after the autopsy, a suspicion was raised when it was clearly seen that he had high levels of rat poison in his body, the food was checked from the diner which did not show any poison. He therefore cannot have been poisoned at the diner. Further investigation showed that the man was homeless and that he lived on and off in both shelters and also various cheap boarding houses. Above all, it was a boarding house which was particularly interesting as he had lived there for the past year. It was run by a person who later turned out to have poisoned several people who lived at the boarding house. The police heard from the neighbors that they noticed a lot of activity in the backyard where some digging had been done. The police were able to find up to 10 bodies after a large excavation.Can you solve the case? Who is the killer?",
+    "killer": 2
+},
+{
+    "id": 3,
+    "murderhistory": "The police arrive at a diner where, at first glance, it appears to be a man who has had a heart attack. The man was big and you can tell he hasn't lived a healthy life so a heart attack is very likely. You can't see any external injuries on him so no crime is suspected. Well after the autopsy, a suspicion was raised when it was clearly seen that he had high levels of rat poison in his body, the food was checked from the diner which did not show any poison. He therefore cannot have been poisoned at the diner. Further investigation showed that the man was homeless and that he lived on and off in both shelters and also various cheap boarding houses. Above all, it was a boarding house which was particularly interesting as he had lived there for the past year. It was run by a person who later turned out to have poisoned several people who lived at the boarding house. The police heard from the neighbors that they noticed a lot of activity in the backyard where some digging had been done. The police were able to find up to 10 bodies after a large excavation.Can you solve the case? Who is the killer?",
+    "killer": 3
+}
+]
 // console.log('murderers', murderers)
 
 
@@ -159,7 +181,7 @@ wss.on("connection", (ws) => {
 
                 let storyObj = {
                     type: "story",
-                    payload: obj.payload,
+                    payload: {murderHistory: murderhistory[Math.floor(Math.random() * murderhistory.length)].murderhistory},
                 }
 
                 console.log('obj.history', obj.payload)
@@ -180,9 +202,10 @@ wss.on("connection", (ws) => {
 
                 const clue = findMurderer.clues.pop();
 
-                // popClues.push(clue);
+                // Ha en räknare här så varje gång man frågar om en clue så ska den dra av poäng från canvasen 
+                // if my counter är mindre än 10 då kan vi fortsätta ge clue, else , skicka en type "Game Over"
 
-                // när den ena är tom får den pusha in den andra, hitta en lösning på detta. 
+                // popClues.push(clue);
 
                 let killerObj = {
                     type: "clues",

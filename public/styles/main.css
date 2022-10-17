@@ -1,6 +1,7 @@
 * {
     box-sizing: border-box;
     margin: 0;
+    font-family: 'Poppins', sans-serif;
 }
 
 /* COLORS 1
@@ -25,45 +26,68 @@ body {
     color: #0F0407;
 }
 
-img {
-    width: 150px;
-    height: 150px;
-}
 
-/* .container-mainpage {
-    position: relative;
-} */
 
-/* #container-chat {
-    position: absolute;
-    top: 0;
-    right: 20px;
-    width: 200px;
-    height: 400px;
-    border: 2px solid black;
-    margin: 16px;
-} */
-
-#getYourStory {
-    padding: 10px;
-    width: 20%;
-}
+/* STYLING FOR MY MURDERSTORYS */
 
 .container-murderStory {
-    display: flex;
+    display: grid;
+    grid-template-rows: 1fr 2fr;
     justify-content: center;
     margin: 30px;
 }
 
+.button-story {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    margin: 20px;
+}
+
+#getYourStory {
+    padding: 10px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #1B241B;
+    color: #c2b9b1;
+    width: 400px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-weight: 800;
+}
+
+#getYourStory:hover {
+    opacity: 0.8;
+    transition: all 0.5s ease-in-out;
+}
+
+.div-story {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    margin: auto;
+}
+
 #murderStory {
-    width: 60%;
+    width: 80%;
     height: 80%;
     margin: 20px;
 }
 
+/* STYLING FOR MY KILLERS AND KILLERINFO/CLUES */
+
 .container-killerInfo {
     display: flex;
     justify-content: center;
+}
+
+img {
+    width: 150px;
+    height: 150px;
 }
 
 #killerInfo {
@@ -78,19 +102,25 @@ img {
 
 #killerInfo button {
     border: none;
-    background-color: #1B241B;
-    color: white;
+    background-color: #333C36;
+    color: #A45b3E;
     padding: 8px;
     opacity: 1;
     border-radius: 6px;
     width: 100px;
     margin: 10px;
     cursor: pointer;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
 }
 
 #killerInfo button:hover {
     opacity: 0.8;
+    transition: all 0.3s ease-in-out;
 }
+
+/* STYLING FOR MY CANVAS RECTANGLE */
 
 .container-score {
     position: relative;
@@ -99,9 +129,53 @@ img {
 .score {
     display: flex;
     position: absolute;
-    right: 5%;
-    border-radius: 8px;
+    right: 8%;
 }
+
+/* STYLING FOR MY SELECT KILLER AND SOLVE THIS CRIME */
+
+.selectKiller {
+    margin: 50px;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 8px;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.selectKiller label {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.selectKiller button {
+    padding: 10px;
+    background-color: #A45b3E;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    opacity: 0.9;
+    text-transform: uppercase;
+    color: #333C36;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 400px;
+}
+
+.selectKiller button:hover {
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
+}
+
+.selectKiller select {
+    text-decoration: none;
+    border: none;
+    padding: 10px;
+}
+
+/* HERE IS ALL MY STYLING FOR MY SPLASH (THE WELCOME PAGE) */
 
 .splash {
     cursor: pointer;
@@ -122,18 +196,20 @@ img {
 
 .splash-header {
     height: 90%;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
+    color: #A45b3E;
     font-size: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+/* HERE COMES ALL THE STYLING FOR MY CHAT */
+
 /* Button used to open the chat form - fixed at the bottom of the page */
 .open-button {
     background-color: #0F0407;
-    color: white;
+    color: #c2b9b1;
+    font-weight: bold;
     padding: 16px 20px;
     border: none;
     border-radius: 8px;
@@ -161,7 +237,8 @@ img {
     padding: 20px;
     background-color: #0F0407;
     border-radius: 8px;
-    color: white;
+    color: #c2b9b1;
+    position: relative;
 }
 
 #nickname {
@@ -176,7 +253,8 @@ img {
 
 #setNickname {
     background-color: #1B241B;
-    color: white;
+    font-weight: bold;
+    color: #c2b9b1;
     padding: 5px;
     border-radius: 5px;
     width: 50%;
@@ -184,13 +262,22 @@ img {
     cursor: pointer;
 }
 
+#inputText {
+    text-decoration: none;
+    background-color: #333C36;
+    color: #c2b9b1;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+
 .form-container ul {
     width: 100%;
     padding: 15px;
     margin: 5px 0 22px 0;
     list-style: none;
     border: none;
-    color: white;
     resize: none;
     min-height: 200px;
 }
@@ -198,6 +285,38 @@ img {
 ul {
     background-color: #A0978F;
 }
+
+li{
+    border-radius: .4em;
+    background-color: #1B241B;
+    padding: 8px;
+    margin: 5px;
+    /* border-radius: 8px; */
+}
+
+li:nth-child(odd) {
+    background-color: #333C36;
+}
+
+.time-and-nickname {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    color: #867e78;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+#mymessage {
+    color: #c2b9b1;
+}
+
+
+
+/* li time {
+    position: absolute;
+    top: 12%;
+    right: 10%;
+} */
 
 /* Add a red background color to the cancel button */
 .form-container .cancel {

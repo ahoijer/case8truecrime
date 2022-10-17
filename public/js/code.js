@@ -3,8 +3,8 @@
 const inputText = document.getElementById("inputText");
 const setNickname = document.querySelector("#setNickname");
 
-const murderStory = document.getElementById('murderStory');
-const killerInfo = document.getElementById('killerInfo');
+const murderStoryEl = document.getElementById('murderStory');
+const killerInfoEl = document.getElementById('killerInfo');
 
 const getYourStoryBtn = document.getElementById('getYourStory');
 
@@ -32,49 +32,28 @@ async function Init() {
     const websocket = new WebSocket("ws://localhost:80");
 
 
-    // lägg in en fetch
+    // // lägg in en fetch
     const response1 = await fetch('thekillers.json')
     const killer = await response1.json()
 
     ctx.fillStyle = '#333C36';
     ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
 
-    const response2 = await fetch('murderhistory.json')
-    const murderhistory = await response2.json()
-
-    console.log('murderhistory', murderhistory)
-
-    function pickRandomStory() {
-        // console.log(murderhistory[Math.floor(Math.random()*murderhistory.length)].murderhistory)
-        const myStory = document.createElement('div');
-
-        let pTagStory = document.createElement('p');
-
-        // let mStory = 
-        // murderhistory[Math.floor(Math.random() * murderhistory.length)].murderhistory
-
-        pTagStory.innerText = murderhistory[Math.floor(Math.random() * murderhistory.length)].murderhistory
-
-        myStory.appendChild(pTagStory);
-
-        murderStory.appendChild(myStory);
-
-        // websocket.send(JSON.stringify({ type: "story", payload: mStory }))
+    // const response2 = await fetch('murderhistory.json')
+    // const murderhistory = await response2.json()
 
 
-        return murderhistory[Math.floor(Math.random() * murderhistory.length)].murderhistory;
+    function renderStory(murderHistory) {
+
+        murderStoryEl.innerText = murderHistory;
 
     }
 
-    // pickRandomStory();
 
 
     getYourStoryBtn.addEventListener('click', () => {
-        // pickRandomStory();
-        let mStory = pickRandomStory();
-        console.log('mstory', mStory)
 
-        websocket.send(JSON.stringify({ type: "story", payload: mStory }))
+        websocket.send(JSON.stringify({ type: "story"}))
 
     })
 
@@ -132,7 +111,7 @@ async function Init() {
         myKillers.appendChild(buttonClue);
 
         // ADD myKillers TO MY BIG DIV killerInfo
-        killerInfo.appendChild(myKillers);
+        killerInfoEl.appendChild(myKillers);
 
 
     })
@@ -184,8 +163,8 @@ async function Init() {
                 renderMessage(obj);
                 break;
             case "story":
-                // murderStory.innertext = obj.payload
-                console.log('obj', obj.payload)
+renderStory(obj.payload.murderHistory)
+            console.log('obj', obj.payload.murderHistory)
             case "clues":
                 if (obj.payload.clue === undefined) {
                     document.getElementById(obj.payload.killerId[0]).disabled = true;
@@ -227,7 +206,6 @@ async function Init() {
             };
 
             // show new message for this user
-            //borde fungera utan renderMessage raden här. fråga servern om man kan skriva ett meddelande. 
             renderMessage(objMessage);
 
             // send to server
@@ -242,13 +220,8 @@ async function Init() {
 
 
 
-    /* functions...
+    /* functions for my popup-chat
     ------------------------------- */
-    // function openForm() {
-    //     document.getElementById("myForm").style.display = "block";
-    // }
-
-    // openForm()
 
     document.getElementById("openForm").addEventListener('click',function ()
     {
