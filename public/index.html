@@ -21,13 +21,16 @@
 <body>
     <div class="container-mainpage">
 
+        <!-- DIV for my top-container -->
         <div class="top-container">
-        <h1>Time to solve a murder</h1>
-        <p>Read the story and get your clues, remember, every clue gives you less score</p>
-    </div>
+            <h1>Time to solve a murder</h1>
+            <p>Read the story and get your clues, remember, every clue gives you less score</p>
+        </div>
 
+        <!-- DIV for my murder history and button -->
         <div class="container-murderStory">
 
+            <!-- DIV for my button -->
             <div class="button-story">
                 <button id="getYourStory">Get your story</button>
             </div>
@@ -37,43 +40,49 @@
             </div>
         </div>
 
-       
+
 
         <!-- Div for my killer information -->
         <div class="container-killerInfo">
             <div id="killerInfo"></div>
         </div>
+        <!-- DIV for my selectkiller and my solve crime btn -->
         <div class="selectKiller">
             <label for="whoKiller">Who is the killer?</label>
 
             <select name="whoKiller" id="whoKiller">
-                <option value="MrsAgatha">Mrs Agatha</option>
+                <option value="0">Mrs Agatha</option>
                 <option value="James">James</option>
                 <option value="MrClark">Mr Clark</option>
                 <option value="Anastasia">Anastasia</option>
             </select>
 
-            <button type="submit">Solve this crime!</button>
+            <button id="solveCrimeBtn">Solve this crime!</button>
+            <!-- gör en onclick, sen hämta ut id från min json -->
         </div>
 
-             <!-- TRYING OUT CANVAS -->
-        <!-- addeventlistner för att rita om canvas när man trycker på clue -->
-        <!-- när man förlorar ett poäng så ritar man om -->
-        <!-- x,y värden, fillstyle, width, height? -->
+        <!-- DIV for my CANVAS -->
         <div class="container-score">
             <h3>Don't empty the rectangle</h3>
             <div class="score">
+                <div id="current-points"></div>
                 <canvas id="rectangle" width="50" height="200" style="border:1px solid black"></canvas>
             </div>
         </div>
+
         <!-- server status -->
         <div id="status"></div>
 
-        <!-- div for my splasch screen -->
-        <div class="splash">
-            <h1 class="splash-header">Click to start Crime Time</h1>
+        <!-- DIV for my splasch screen -->
+        <div class="splash-start">
+            <h1 class="splash-header-start">Click to start Crime Time</h1>
         </div>
 
+        <div class="splash-gameOver">
+            <h1 class="splash-header-gameOver">Game Over - The Killer Walks Free</h1>
+        </div>
+
+        <!-- DIV for my pop up chat -->
         <button class="open-button" id="openForm">Chat</button>
 
         <div class="chat-popup" id="myForm">

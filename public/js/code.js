@@ -1,29 +1,42 @@
 
-// DOM elements
+// Mina variablar
+
+// Varibel för min chat
 const inputText = document.getElementById("inputText");
 const setNickname = document.querySelector("#setNickname");
-
-const murderStoryEl = document.getElementById('murderStory');
-const killerInfoEl = document.getElementById('killerInfo');
-
-const getYourStoryBtn = document.getElementById('getYourStory');
-
-const canvas = document.getElementById('rectangle');
-const ctx = canvas.getContext('2d');
-
-var splashScreen = document.querySelector('.splash');
-splashScreen.addEventListener('click', () => {
-    splashScreen.style.opacity = 0;
-    setTimeout(() => {
-        splashScreen.classList.add('hidden')
-    }, 610)
-})
 
 // variable current user | nickname
 let nickname;
 
-// count clues and points
+// Variabel för mina mördare och deras clues
+const murderStoryEl = document.getElementById('murderStory');
+const killerInfoEl = document.getElementById('killerInfo');
+
+// Variabel för min "Get your story" button
+const getYourStoryBtn = document.getElementById('getYourStory');
+// Variabel för min "Solve This Crime" button
+const solveCrimeBtn = document.getElementById('solveCrimeBtn')
+
+// Min canvas
+const canvas = document.getElementById('rectangle');
+const ctx = canvas.getContext('2d');
+
+const currentPointsEl = document.getElementById('current-points')
+
+const gameOverSplashId = document.getElementById('splash-gameOver')
+
+// count för ge mina divar för mördarna ett unikt id
 let count = 0;
+
+// Min splashscreen för min "Welcome to Crime Time"
+let splashScreenStart = document.querySelector('.splash-start');
+splashScreenStart.addEventListener('click', () => {
+    splashScreenStart.style.opacity = 0;
+    setTimeout(() => {
+        splashScreenStart.classList.add('hidden')
+    }, 610)
+})
+
 
 async function Init() {
 
@@ -32,28 +45,23 @@ async function Init() {
     const websocket = new WebSocket("ws://localhost:80");
 
 
-    // // lägg in en fetch
+    // fetch för thekillers.json (denna behövs då jag gör en map på killer)
     const response1 = await fetch('thekillers.json')
     const killer = await response1.json()
 
+    // fillstyle och fillrect för min canvas
     ctx.fillStyle = '#333C36';
     ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
 
-    // const response2 = await fetch('murderhistory.json')
-    // const murderhistory = await response2.json()
-
-
+    // min function för att rendera ut en random murderHistory och en websocket.send för skicka förfrågan till servern om en random story
     function renderStory(murderHistory) {
 
         murderStoryEl.innerText = murderHistory;
 
     }
-
-
-
     getYourStoryBtn.addEventListener('click', () => {
 
-        websocket.send(JSON.stringify({ type: "story"}))
+        websocket.send(JSON.stringify({ type: "story" }))
 
     })
 
@@ -75,7 +83,9 @@ async function Init() {
         let ptAge = document.createElement('p');
         let buttonClue = document.createElement('button');
 
-        //namnge min prop till något rimligt
+
+        // här får jag fram unika id för mina mördare
+        // Murderer visar fyra objekt med ett varsitt id 0-3.
 
         const murderer = {
             killerId: thisKiller.id
@@ -83,18 +93,11 @@ async function Init() {
 
         buttonClue.setAttribute("id", thisKiller.id);
 
-        // Murderer visar fyra objekt med ett varsitt id 0-3.
-        console.log('murderer', murderer)
-
+        // im in buttonclue när den klickas på så skickas en förfrågan till servern med mina mördare och deras unika id
+        // servern ska skicka tillbaka vem av mördaren jag klickat på och ge mig sista clues i arrayen för den mördaren.
         buttonClue.addEventListener('click', () => {
 
-            // const currentClue = thisKiller.clues.pop();
-            // console.log('currentclue', currentClue, thisKiller)
-
-            // här menar Henry att jag bör stoppa in Id:t för mördaren istället och sen göra en pop på server-sidan för att inte få ut dubbletter på min DOM
-            // websocket.send(JSON.stringify({ type: "clues", payload: [currentClue, thisKiller]}))
             websocket.send(JSON.stringify({ type: "clues", payload: murderer }))
-
 
         })
 
@@ -112,38 +115,46 @@ async function Init() {
 
         // ADD myKillers TO MY BIG DIV killerInfo
         killerInfoEl.appendChild(myKillers);
-
-
     })
 
-    // function drawText(ctx, str, font, align, x, y) {
-    //     ctx.font = font;
-    //     ctx.fillStyle = 'black';
-    //     ctx.textAlign = align;
-    //     ctx.fillText(str, x, y);
-    // }
 
-    // let frameNum = 0;
-
+    // här renderar jag ut min clue för rätt mördare och tömmer samtidigt min canvas för varje gång jag klickat för att få en clue.
     function renderClue(killerId, clue, cluePoint) {
-        //???? VAD GÖR JAG???
+
         const clueAndKiller = document.createElement('div');
 
         clueAndKiller.innerText = clue;
 
         document.getElementById('m' + killerId).appendChild(clueAndKiller)
 
+        // min uträkning för hur mycket som ska tömmas i min rektangel (canvas), rektangeln är 200 hög, cluepoint är 100p. Gör om till procentenhet
+        // för att dra bort rätt mängd från rektangeln. barHeight lägger jag sen in i min clearRect som tömmer, längst bak, som står för heighten på min rektangel
+
+        // cluePoint drar bort 20 varje gång man skickar och frågar servern om en clue.
         const barHeight = 200 - (200 * cluePoint / 100);
 
         ctx.clearRect(0, 0, 50, barHeight);
         console.log('cluePoint', cluePoint)
+
+        currentPointsEl.innerText = cluePoint
     }
+
+    function renderGameOver() {
+
+        let splashScreenGameOver = document.querySelector('.splash-gameOver');
+    splashScreenGameOver.style.opacity = 1;
+    setTimeout(() => {
+        splashScreenGameOver.classList.add('show')
+    }, 610)
+
+    }
+
+
     /* event listeners
     ------------------------------- */
 
     // listen on close event (server)
     websocket.addEventListener("close", (event) => {
-        // console.log('Server down...', event);
         document.getElementById("status").textContent = "Sry....server down";
     });
 
@@ -159,21 +170,18 @@ async function Init() {
             case "text":
                 renderMessage(obj);
                 break;
-            case "story":
-renderStory(obj.payload.murderHistory)
-            console.log('obj', obj.payload.murderHistory)
-            case "clues":
+            case "story": //case för min renderStory, tar emot information från servern. murderHistory är objektet i min json.
+                renderStory(obj.payload.murderHistory)
+            case "clues": // case för min renderClue där jag även skickar med mina points. i min function skriver jag ut rätt clue på rätt mördare, info som servern gett mig
                 if (obj.payload.clue === undefined) {
-                    document.getElementById(obj.payload.killerId[0]).disabled = true;
+                    document.getElementById(obj.payload.killerId[0]).disabled = true; // här säger jag att om arrayen är tömd och det kommer undefined så ska knappen bli disabled.
                 }
-
                 renderClue(obj.payload.killerId, obj.payload.clue, obj.payload.points);
-
-                // console.log("obj", obj.payload.killerId.clue)
-
                 break;
-                case "gameOver":
-                    console.log('gameover')
+            case "gameOver": // case för min gameOver, detta ska renderas ut när min canvas är tömd, när cluePoint är nere på 0 eller om man gissat på fel mördare i min "Solve this Crime"
+                renderGameOver()
+                break;
+            case "solveCrime": // case för min solveCrime button/select. här ska renderas ut på sidan antingen congratulations eller game over
                 break;
             default:
                 break;
@@ -223,17 +231,15 @@ renderStory(obj.payload.murderHistory)
     /* functions for my popup-chat
     ------------------------------- */
 
-    document.getElementById("openForm").addEventListener('click',function ()
-    {
+    document.getElementById("openForm").addEventListener('click', function () {
         document.getElementById("myForm").style.display = "block";
-     //validation code to see State field is mandatory.  
-    }  ); 
+        //validation code to see State field is mandatory.  
+    });
 
-    document.getElementById("closeForm").addEventListener('click',function ()
-    {
+    document.getElementById("closeForm").addEventListener('click', function () {
         document.getElementById("myForm").style.display = "none";
-     //validation code to see State field is mandatory.  
-    }  ); 
+        //validation code to see State field is mandatory.  
+    });
     // function closeForm() {
     //     document.getElementById("myForm").style.display = "none";
     // }
@@ -298,6 +304,7 @@ window.onload = Init;
 // Saker som inte fungerar och som jag vill ska fungera:
 
 // FRÅGOR RÖRANDE MIN SERVER/CLIENT
+// - Vill skapa ett case "Init" så varje gång man starta webbläsaren så ska det skickas en förfrågan direkt till servern, att "hej nu vill jag spela"
 // - kan inte längre se mina skickade meddelande mellan chattarna?? - MÅSTE FUNKA - CHECK
 // - Får upp dubbelt av mina clues när det är olika webbläsare som trycker på samma clue - CHECK
 // - måste göra en if på min renderclue så man inte kan klicka mer än 3 gånger per mördare för få en clue. CHECK
@@ -311,7 +318,7 @@ window.onload = Init;
 // - Lösa någon form av game over när stapeln är tömd - PÅBÖRJAD
 
 // ÖVRIGT
-// - Fixa en lösning för  min button "solve this crime" så man kan få ut om man löst mordet eller fått game over
-// - Hade velat ha en startsida där man skriver in Player 1 och Player 2 som sen ska visas visuellt i chatten. Eller finns det en enklare lösning?
+// - Fixa en lösning för  min button "solve this crime" så man kan få ut om man löst mordet eller fått game over - SMÅTT PÅBÖRJAD
+// - Hade velat ha en startsida där man skriver in Player 1 och Player 2 som sen ska visas visuellt i chatten. (DENNA KOMMER PRIORITERAS BORT)
 // - Skriva klart två till mordhistorier
 // - Flytta ordningen på mina clues

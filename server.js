@@ -61,6 +61,7 @@ const murderers = [
     }
 ]
 
+// import murderhistory
 const murderhistory = [{
     "id": 0,
     "murderhistory": "The police arrive at a diner where, at first glance, it appears to be a man who has had a heart attack. The man was big and you can tell he hasn't lived a healthy life so a heart attack is very likely. You can't see any external injuries on him so no crime is suspected. Well after the autopsy, a suspicion was raised when it was clearly seen that he had high levels of rat poison in his body, the food was checked from the diner which did not show any poison. He therefore cannot have been poisoned at the diner. Further investigation showed that the man was homeless and that he lived on and off in both shelters and also various cheap boarding houses. Above all, it was a boarding house which was particularly interesting as he had lived there for the past year. Can you solve the case? Who is the killer?",
@@ -83,11 +84,6 @@ const murderhistory = [{
 }
 ]
 
-// console.log('murderers', murderers)
-
-
-// mina tomma array
-// const popClues = [];
 
 
 /* application variables
@@ -181,11 +177,15 @@ wss.on("connection", (ws) => {
                 broadcastButExclude(wss, ws, objBroadcast);
 
                 break;
-                case "story":
+            case "story":
+
+                // Här skickas en förfrågan till servern från clienten om vilken randomstory som ska presenteras på sidan. 
+                // Servern skickar tillbaka en random story med hjälp av Math.random().
+                // Clienten rendererar sen ut storyn. 
 
                 let storyObj = {
                     type: "story",
-                    payload: {murderHistory: murderhistory[Math.floor(Math.random() * murderhistory.length)].murderhistory},
+                    payload: { murderHistory: murderhistory[Math.floor(Math.random() * murderhistory.length)].murderhistory },
                 }
 
                 console.log('obj.history', obj.payload)
@@ -199,22 +199,25 @@ wss.on("connection", (ws) => {
 
 
             case "clues":
-            
-                // använd i obj.paylod.killerId(murder) där är id:t för nuvarande möte, den vill jag hämta nästa clue från med pop() (find måste vara involverad i denna lösning)
 
-                // const currentClue = thisKiller.clues.pop();
+                // I clues så skickar jag förfrågan från min client med id på mördarna till servern för att ta reda på vilken mördare som har vilka clues,
+                //  servern tar emot förfrågan, genom en find så tar jag reda på vilket id den mördaren har som jag klickat på och vilka clues den har
+                // sen gör jag en pop på den mördarens clues där jag tar bort den sista i arrayen och skickar tillbaka den till clienten som tar emot informationen
+                // när clienten tagit emot ledtråden, id:t och cluePoints så renderar den ut det och skapar element/div där clues visas. 
 
+                // Har en cluePoint för att räkna hur många gånger clienten skickar en förfrågan om clues till servern. 
+                // När man skickar en förfrågan så ska 20 poäng dras bort från canvas rektangeln, rektangeln innehåller 100p från början, man kan ta ut 5 ledtrådar innan man får Game over.
+
+                cluePoint = cluePoint - 20;
 
                 if (cluePoint > 10) {
                     const findMurderer = murderers.find(element => element.id === obj.payload.killerId)
 
                     const clue = findMurderer.clues.pop();
 
-                    cluePoint = cluePoint - 20;
-
                     let killerObj = {
                         type: "clues",
-                        payload: {clue, killerId: findMurderer.id, points: cluePoint}
+                        payload: { clue, killerId: findMurderer.id, points: cluePoint }
                     }
 
 
@@ -223,9 +226,10 @@ wss.on("connection", (ws) => {
                         client.send(JSON.stringify(killerObj))
                     });
 
-                } else { 
+                } else {
                     let gameOverObject = {
                         type: "gameOver",
+                        payload: true
                     }
 
                     wss.clients.forEach((client) => {
@@ -234,23 +238,17 @@ wss.on("connection", (ws) => {
                     });
                 }
 
-                
-
-                
-
                 // Ha en räknare här så varje gång man frågar om en clue så ska den dra av poäng från canvasen 
-                // if my counter är mindre än 10 då kan vi fortsätta ge clue, else , skicka en type "Game Over"
+                // if my counter är mindre än 10 då kan vi fortsätta ge clue, else , skicka en type "Game Over
 
-                // popClues.push(clue);
-
-             
-
-                // console.log('id', findMurderer)
-
-               
 
                 break
-            
+            case "solveCrime":
+                // Skicka förfrågan från clienten till servern om det är rätt mördare genom id:t 
+                // if och else, true eller false. 
+                // måste lägga in en variabel selectedStory så man vet vilken story som är presenterad
+                break;
+
             default:
                 break;
         }
