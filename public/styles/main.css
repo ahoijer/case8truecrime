@@ -1,7 +1,10 @@
 * {
     box-sizing: border-box;
     margin: 0;
-    font-family: 'Poppins', sans-serif;
+    /* font-family: 'Poppins', sans-serif; */
+    font-family: 'Special Elite', cursive;
+    letter-spacing: 1px;
+    line-height: 1.5em;
 }
 
 /* COLORS 1
@@ -107,7 +110,6 @@ img {
     grid-template-columns: 1fr 1fr 1fr 1fr;
     justify-content: center;
     text-align: center;
-    align-items: center;
     width: 70%;
     margin: 10px;
 }
@@ -134,16 +136,33 @@ img {
 
 /* STYLING FOR MY CANVAS RECTANGLE */
 
-.container-score {
-    display: grid;
-    grid-template-rows: 1fr 4fr;
-    position: relative;
+#current-points {
+    text-align: center;
 }
 
+
+.container-score {
+    display: grid;
+    text-align: center;
+    grid-template-rows: 1fr 1fr;
+}
+
+.container-score h3 {
+    margin: 8px;
+    color: #864024;
+}
+
+#rectangle {
+    border: none;
+    border-radius: 8px;
+    background-color: #a59f99;
+}
 .score {
     display: grid;
     justify-content: center;
     align-items: center;
+    position: sticky;
+    top: 30px;
 }
 
 /* STYLING FOR MY SELECT KILLER AND SOLVE THIS CRIME */

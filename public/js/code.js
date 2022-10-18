@@ -131,12 +131,12 @@ async function Init() {
         // för att dra bort rätt mängd från rektangeln. barHeight lägger jag sen in i min clearRect som tömmer, längst bak, som står för heighten på min rektangel
 
         // cluePoint drar bort 20 varje gång man skickar och frågar servern om en clue.
-        const barHeight = 200 - (200 * cluePoint / 100);
+        const barHeight = 800 - (800 * cluePoint / 100);
 
-        ctx.clearRect(0, 0, 50, barHeight);
+        ctx.clearRect(0, 0, barHeight, 30, );
         console.log('cluePoint', cluePoint)
 
-        currentPointsEl.innerText = cluePoint
+        currentPointsEl.innerText = `Clue Points Left: ${cluePoint}/100p`;
     }
 
     function renderGameOver() {

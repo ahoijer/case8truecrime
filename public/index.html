@@ -13,6 +13,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap"
         rel="stylesheet">
 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+
     <!-- MY CSS -->
     <link rel="stylesheet" href="styles/main.css">
 
@@ -40,8 +44,17 @@
             </div>
         </div>
 
+        <!-- fixed bar , fixed position med min bar och en button a-tag som går mot ett id-->
+        <!-- lägg in en voiceover med knapp för att få den uppläst -->
+        <!-- Special Elite - Google Fonts -->
 
-
+        <!-- DIV for my CANVAS -->
+        <div class="container-score">
+            <div class="score">
+                <h3 id="current-points">Clue Points Left: 100/100p</h3>
+                <canvas id="rectangle" width="800" height="30"></canvas>
+            </div>
+        </div>
         <!-- Div for my killer information -->
         <div class="container-killerInfo">
             <div id="killerInfo"></div>
@@ -59,15 +72,6 @@
 
             <button id="solveCrimeBtn">Solve this crime!</button>
             <!-- gör en onclick, sen hämta ut id från min json -->
-        </div>
-
-        <!-- DIV for my CANVAS -->
-        <div class="container-score">
-            <h3>Don't empty the rectangle</h3>
-            <div class="score">
-                <div id="current-points"></div>
-                <canvas id="rectangle" width="50" height="200" style="border:1px solid black"></canvas>
-            </div>
         </div>
 
         <!-- server status -->

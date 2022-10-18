@@ -17,46 +17,46 @@ import { parseJSON, broadcast, broadcastButExclude } from "./libs/functions.js";
 const murderers = [
     {
         "id": 0,
-        "image": "url",
+        "img": "images/MrsAgatha.png",
         "name": "Mrs Agatha",
         "age": "Age: 72",
         "clues": [
-            "Character Trait: Envy",
             "Approach: Food and drinks",
-            "Murderweapon: Poison"
+            "Murderweapon: Poison",
+            "Character Trait: Envy"
         ]
     },
     {
         "id": 1,
-        "image": "url",
+        "img": "images/James.png",
         "name": "James",
         "age": "Age: 35",
         "clues": [
-            "Obsession",
-            "Kills his victims while they sleep",
-            "Fishing line"
+            "Murderweapon: Fishing line",
+            "Approach: Kills his victims while they sleep",
+            "Character Trait: Obsession"
         ]
     },
     {
         "id": 2,
-        "image": "url",
+        "img": "images/MrClark.png",
         "name": "Mr Clark",
         "age": "Age: 41",
         "clues": [
-            "Hate society",
-            "Burglary",
-            "Pistol"
+            "Approach: Burglary",
+            "Murderweapon: Pistol",
+            "Character Trait: Hate society"
         ]
     },
     {
         "id": 3,
-        "image": "url",
+        "img": "images/Anastasia.png",
         "name": "Anastasia",
         "age": "Age: 26",
         "clues": [
-            "The vengeful",
-            "Sneaking forward",
-            "Needle with Neurotoxin"
+            "Approach: Sneaking forward",
+            "Murderweapon: Needle with Neurotoxin",
+            "Character Trait: The vengeful"
         ]
     }
 ]
@@ -246,6 +246,7 @@ wss.on("connection", (ws) => {
             case "solveCrime":
                 // Skicka förfrågan från clienten till servern om det är rätt mördare genom id:t 
                 // if och else, true eller false. 
+                
                 // måste lägga in en variabel selectedStory så man vet vilken story som är presenterad
                 break;
 
