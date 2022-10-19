@@ -65,7 +65,8 @@ const murderers = [
 const murderhistory = [{
     "id": 0,
     "murderhistory": "The police arrive at a diner where, at first glance, it appears to be a man who has had a heart attack. The man was big and you can tell he hasn't lived a healthy life so a heart attack is very likely. You can't see any external injuries on him so no crime is suspected. Well after the autopsy, a suspicion was raised when it was clearly seen that he had high levels of rat poison in his body, the food was checked from the diner which did not show any poison. He therefore cannot have been poisoned at the diner. Further investigation showed that the man was homeless and that he lived on and off in both shelters and also various cheap boarding houses. Above all, it was a boarding house which was particularly interesting as he had lived there for the past year. Can you solve the case? Who is the killer?",
-    "killer": 0
+    "killer": 0,
+    "audio": "audio/Murder-Story-01.mp3"
 },
 {
     "id": 1,
@@ -74,12 +75,12 @@ const murderhistory = [{
 },
 {
     "id": 2,
-    "murderhistory": "empty",
+    "murderhistory": "empty Mr.Clark",
     "killer": 2
 },
 {
     "id": 3,
-    "murderhistory": "empty",
+    "murderhistory": "empty Anastasia",
     "killer": 3
 }
 ]
@@ -191,9 +192,13 @@ wss.on("connection", (ws) => {
 
                 selectedStoryId = selectedStory.id
 
+                let selectedStoryAudio = selectedStory.audio
+
+                console.log('audio', selectedStoryAudio)
+
                 let storyObj = {
                     type: "story",
-                    payload: { murderHistory: selectedMurderHistory },
+                    payload: { murderHistory: selectedMurderHistory, playAudio: selectedStoryAudio },
                 }
 
 

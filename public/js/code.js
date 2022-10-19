@@ -56,9 +56,25 @@ async function Init() {
     ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
 
     // min function för att rendera ut en random murderHistory och en websocket.send för skicka förfrågan till servern om en random story
-    function renderStory(murderHistory) {
+    function renderStory(murderHistory, playAudio) {
 
         murderStoryEl.innerText = murderHistory;
+
+        let audioElement = document.createElement('audio');
+
+        audioElement.setAttribute('src', playAudio)
+        audioElement.setAttribute('controls', true); 
+                audioElement.setAttribute('preload', true); 
+                audioElement.setAttribute('type', 'audio/mpeg');
+
+                audioElement.addEventListener("load", function() { 
+                    audioElement.play(); 
+                    }, true);
+    
+                    audioElement.load();
+
+
+        murderStoryEl.appendChild(audioElement)
 
     }
 
@@ -70,9 +86,9 @@ async function Init() {
 
 
     solveCrimeBtn.addEventListener('click', () => {
+
         websocket.send(JSON.stringify({ type: "solveCrime", payload: whoKillerEl.value }))
 
-        console.log('whoKiller', whoKillerEl.value)
     })
 
     // DENNA MAP FUNKTION MAPPAR UT MINA MÖRDARE PÅ HEMSIDAN
@@ -194,7 +210,9 @@ async function Init() {
                 renderMessage(obj);
                 break;
             case "story": //case för min renderStory, tar emot information från servern. murderHistory är objektet i min json.
-                renderStory(obj.payload.murderHistory)
+                renderStory(obj.payload.murderHistory, obj.payload.playAudio)
+
+                console.log('playaudio.obj', obj.payload.playAudio)
             case "clues": // case för min renderClue där jag även skickar med mina points. i min function skriver jag ut rätt clue på rätt mördare, info som servern gett mig
                 if (obj.payload.clue === undefined) {
                     document.getElementById(obj.payload.killerId[0]).disabled = true; // här säger jag att om arrayen är tömd och det kommer undefined så ska knappen bli disabled.
@@ -205,7 +223,6 @@ async function Init() {
                 renderGameOver()
                 break;
             case "solveCrime": // case för min solveCrime button/select. här ska renderas ut på sidan antingen congratulations eller game over
-                // console.log('congratulations')
                 renderCongratulations()
 
                 break;
