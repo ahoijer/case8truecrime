@@ -74,7 +74,7 @@ const murderhistory = [{
 },
 {
     "id": 2,
-    "murderhistory": "empty",
+    "murderhistory": "empty Mr.Clark",
     "killer": 2
 },
 {
@@ -135,6 +135,9 @@ server.on("upgrade", (req, socket, head) => {
 
 let cluePoint = 100;
 
+let selectedStory
+
+let selectedStoryId
 
 /* listen on new websocket connections
 ------------------------------- */
@@ -182,13 +185,19 @@ wss.on("connection", (ws) => {
                 // Här skickas en förfrågan till servern från clienten om vilken randomstory som ska presenteras på sidan. 
                 // Servern skickar tillbaka en random story med hjälp av Math.random().
                 // Clienten rendererar sen ut storyn. 
+                selectedStory = murderhistory[Math.floor(Math.random() * murderhistory.length)]
+
+                let selectedMurderHistory = selectedStory.murderhistory
+
+                selectedStoryId = selectedStory.id
 
                 let storyObj = {
                     type: "story",
-                    payload: { murderHistory: murderhistory[Math.floor(Math.random() * murderhistory.length)].murderhistory },
+                    payload: { murderHistory: selectedMurderHistory },
                 }
 
-                console.log('obj.history', obj.payload)
+
+                // console.log('obj.history', obj.payload)
 
                 wss.clients.forEach((client) => {
 
@@ -244,10 +253,35 @@ wss.on("connection", (ws) => {
 
                 break
             case "solveCrime":
+
                 // Skicka förfrågan från clienten till servern om det är rätt mördare genom id:t 
                 // if och else, true eller false. 
-                
-                // måste lägga in en variabel selectedStory så man vet vilken story som är presenterad
+
+                if (selectedStoryId == obj.payload) {
+
+                    let solveCrimeObj = {
+                        type: "solveCrime",
+                        payload: obj.payload
+                    }
+
+                    wss.clients.forEach((client) => {
+
+                        client.send(JSON.stringify(solveCrimeObj))
+                    });
+
+                } else {
+
+                    let gameOverObject = {
+                        type: "gameOver",
+                        payload: true
+                    }
+
+                    wss.clients.forEach((client) => {
+
+                        client.send(JSON.stringify(gameOverObject))
+                    });
+                }
+
                 break;
 
             default:

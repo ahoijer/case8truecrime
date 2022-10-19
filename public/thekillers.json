@@ -1,7 +1,7 @@
 [
     {
         "id": 0,
-        "img": "images/MrsAgatha.png",
+        "img": "images/mrs.agatha.png",
         "name": "Mrs Agatha",
         "age": "Age: 72",
         "clues": [
@@ -12,7 +12,7 @@
     },
     {
         "id": 1,
-        "img": "images/James.png",
+        "img": "images/james.png",
         "name": "James",
         "age": "Age: 35",
         "clues": [
@@ -23,7 +23,7 @@
     },
     {
         "id": 2,
-        "img": "images/MrClark.png",
+        "img": "images/mr.clark.png",
         "name": "Mr Clark",
         "age": "Age: 41",
         "clues": [

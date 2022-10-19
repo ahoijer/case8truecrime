@@ -5,16 +5,11 @@
     font-family: 'Special Elite', cursive;
     letter-spacing: 1px;
     line-height: 1.5em;
+    font-size: 18px;
 }
 
-/* COLORS 1
-#5C131B - dark red
-#6E1722 - lighter red
-#615843 - dark beige
-#312D21 - browngreen
-#1A0B08 - dark brown*/
 
-/* COLORS 2 
+/* COLORS  
 #A45b3E -  orange
 #333C36 - bluegreen
 #A0978F - beige
@@ -34,15 +29,16 @@ body {
     grid-template-rows: 1fr 1fr;
     justify-content: center;
     text-align: center;
+    margin-top: 40px;
+
 }
 
 .top-container h1 {
-    font-size: 2rem;
+    font-size: 3rem;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
     color: #333C36;
-    margin-top: 20px;
 }
 
 
@@ -63,7 +59,7 @@ body {
 
 #getYourStory {
     padding: 10px;
-    font-size: 1rem;
+    font-size: 1.2rem;
     border: none;
     border-radius: 8px;
     background-color: #1B241B;
@@ -121,7 +117,7 @@ img {
     padding: 8px;
     opacity: 1;
     border-radius: 6px;
-    width: 100px;
+    width: 120px;
     margin: 10px;
     cursor: pointer;
     letter-spacing: 1px;
@@ -148,7 +144,7 @@ img {
 }
 
 .container-score h3 {
-    margin: 8px;
+    margin: 15px;
     color: #864024;
 }
 
@@ -157,6 +153,7 @@ img {
     border-radius: 8px;
     background-color: #a59f99;
 }
+
 .score {
     display: grid;
     justify-content: center;
@@ -166,15 +163,6 @@ img {
 }
 
 /* STYLING FOR MY SELECT KILLER AND SOLVE THIS CRIME */
-
-/* .container-selectAndPoints {
-    display: grid;
-    grid-template-columns:  1fr 1fr;
-    margin-top: 30px;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
-} */
 
 .selectKiller {
     margin: 50px;
@@ -236,7 +224,9 @@ img {
     display: none;
 }
 
-.splash-header-start, .splash-header-gameOver{
+.splash-header-start,
+.splash-header-gameOver,
+.splash-header-congratulations {
     height: 90%;
     color: #A45b3E;
     font-size: 2rem;
@@ -245,9 +235,10 @@ img {
     align-items: center;
 }
 
-.splash-gameOver{
+.splash-gameOver,
+.splash-congratulations {
     display: none;
-    position: fixed ;
+    position: fixed;
     background-color: #1B241B;
     width: 100%;
     height: 100%;
@@ -256,7 +247,7 @@ img {
     transform: translate(-50%, -50%);
 }
 
-.show{
+.show {
     display: block;
 }
 
@@ -315,7 +306,7 @@ img {
     color: #c2b9b1;
     padding: 5px;
     border-radius: 5px;
-    width: 50%;
+    width: 60%;
     margin-bottom: 10px;
     cursor: pointer;
 }
@@ -342,9 +333,11 @@ img {
 
 ul {
     background-color: #A0978F;
+    max-height: 200px;
+    overflow-y: scroll;
 }
 
-li{
+li {
     border-radius: .4em;
     background-color: #1B241B;
     padding: 8px;

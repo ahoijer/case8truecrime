@@ -21,9 +21,11 @@ const solveCrimeBtn = document.getElementById('solveCrimeBtn')
 const canvas = document.getElementById('rectangle');
 const ctx = canvas.getContext('2d');
 
-const currentPointsEl = document.getElementById('current-points')
+const currentPointsEl = document.getElementById('current-points');
 
-const gameOverSplashId = document.getElementById('splash-gameOver')
+const gameOverSplashId = document.getElementById('splash-gameOver');
+
+const whoKillerEl = document.getElementById('whoKiller');
 
 // count för ge mina divar för mördarna ett unikt id
 let count = 0;
@@ -59,6 +61,7 @@ async function Init() {
         murderStoryEl.innerText = murderHistory;
 
     }
+
     getYourStoryBtn.addEventListener('click', () => {
 
         websocket.send(JSON.stringify({ type: "story" }))
@@ -66,7 +69,14 @@ async function Init() {
     })
 
 
+    solveCrimeBtn.addEventListener('click', () => {
+        websocket.send(JSON.stringify({ type: "solveCrime", payload: whoKillerEl.value }))
+
+        console.log('whoKiller', whoKillerEl.value)
+    })
+
     // DENNA MAP FUNKTION MAPPAR UT MINA MÖRDARE PÅ HEMSIDAN
+
 
 
     killer.map((thisKiller) => {
@@ -133,7 +143,7 @@ async function Init() {
         // cluePoint drar bort 20 varje gång man skickar och frågar servern om en clue.
         const barHeight = 800 - (800 * cluePoint / 100);
 
-        ctx.clearRect(0, 0, barHeight, 30, );
+        ctx.clearRect(0, 0, barHeight, 30,);
         console.log('cluePoint', cluePoint)
 
         currentPointsEl.innerText = `Clue Points Left: ${cluePoint}/100p`;
@@ -142,10 +152,23 @@ async function Init() {
     function renderGameOver() {
 
         let splashScreenGameOver = document.querySelector('.splash-gameOver');
-    splashScreenGameOver.style.opacity = 1;
-    setTimeout(() => {
-        splashScreenGameOver.classList.add('show')
-    }, 610)
+        splashScreenGameOver.style.opacity = 1;
+        setTimeout(() => {
+            splashScreenGameOver.classList.add('show')
+        }, 610)
+
+    }
+
+    function renderCongratulations() {
+        let splashScreenCongratulations = document.querySelector('.splash-congratulations');
+        splashScreenCongratulations.style.opacity = 1;
+        setTimeout(() => {
+            splashScreenCongratulations.classList.add('show')
+        }, 610)
+
+
+        // HUR kan jag få poängen att synas i congratualtions, så man vet vilka poäng man landade på?
+        // currentPointsEl.innerText = `Clue Points Left: ${cluePoint}/100p`;
 
     }
 
@@ -182,6 +205,9 @@ async function Init() {
                 renderGameOver()
                 break;
             case "solveCrime": // case för min solveCrime button/select. här ska renderas ut på sidan antingen congratulations eller game over
+                // console.log('congratulations')
+                renderCongratulations()
+
                 break;
             default:
                 break;
@@ -321,4 +347,8 @@ window.onload = Init;
 // - Fixa en lösning för  min button "solve this crime" så man kan få ut om man löst mordet eller fått game over - SMÅTT PÅBÖRJAD
 // - Hade velat ha en startsida där man skriver in Player 1 och Player 2 som sen ska visas visuellt i chatten. (DENNA KOMMER PRIORITERAS BORT)
 // - Skriva klart två till mordhistorier
-// - Flytta ordningen på mina clues
+// - Flytta ordningen på mina clues - PÅBÖRJAD
+// - Fixa voiceover på  mina texter
+// - Gör mina gubbar mörkare
+// -  Fixa en bar med position fixed i javascript
+
