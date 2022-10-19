@@ -30,6 +30,7 @@ const whoKillerEl = document.getElementById('whoKiller');
 // count för ge mina divar för mördarna ett unikt id
 let count = 0;
 
+
 // Min splashscreen för min "Welcome to Crime Time"
 let splashScreenStart = document.querySelector('.splash-start');
 splashScreenStart.addEventListener('click', () => {
@@ -38,6 +39,7 @@ splashScreenStart.addEventListener('click', () => {
         splashScreenStart.classList.add('hidden')
     }, 610)
 })
+
 
 
 async function Init() {
@@ -63,15 +65,15 @@ async function Init() {
         let audioElement = document.createElement('audio');
 
         audioElement.setAttribute('src', playAudio)
-        audioElement.setAttribute('controls', true); 
-                audioElement.setAttribute('preload', true); 
-                audioElement.setAttribute('type', 'audio/mpeg');
+        audioElement.setAttribute('controls', true);
+        audioElement.setAttribute('preload', true);
+        audioElement.setAttribute('type', 'audio/mpeg');
 
-                audioElement.addEventListener("load", function() { 
-                    audioElement.play(); 
-                    }, true);
-    
-                    audioElement.load();
+        audioElement.addEventListener("load", function () {
+            audioElement.play();
+        }, true);
+
+        audioElement.load();
 
 
         murderStoryEl.appendChild(audioElement)

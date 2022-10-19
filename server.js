@@ -194,8 +194,6 @@ wss.on("connection", (ws) => {
 
                 let selectedStoryAudio = selectedStory.audio
 
-                console.log('audio', selectedStoryAudio)
-
                 let storyObj = {
                     type: "story",
                     payload: { murderHistory: selectedMurderHistory, playAudio: selectedStoryAudio },

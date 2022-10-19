@@ -24,6 +24,10 @@ body {
     color: #0F0407;
 }
 
+.container-mainpage {
+    position: relative;
+}
+
 .top-container {
     display: grid;
     grid-template-rows: 1fr 1fr;
@@ -46,7 +50,7 @@ body {
 
 .container-murderStory {
     display: grid;
-    grid-template-rows: 1fr 2fr;
+    grid-template-rows: 0.5fr 2fr;
     justify-content: center;
 }
 
@@ -81,12 +85,20 @@ body {
     justify-content: center;
     text-align: center;
     align-items: center;
-    margin: auto;
 }
 
 #murderStory {
+    display: grid;
+    grid-template-rows: 2fr 1fr;
     width: 80%;
-    margin: 20px;
+    margin: 15px;
+}
+
+#murderStory audio {
+    filter: sepia(20%) saturate(70%) grayscale(1) contrast(99%) invert(12%);
+    width: 200px;
+    height: 25px;
+    margin-top: 20px;    
 }
 
 /* STYLING FOR MY KILLERS AND KILLERINFO/CLUES */
@@ -144,7 +156,7 @@ img {
 }
 
 .container-score h3 {
-    margin: 15px;
+    margin-bottom: 15px;
     color: #864024;
 }
 
@@ -154,12 +166,13 @@ img {
     background-color: #a59f99;
 }
 
-.score {
+#score {
     display: grid;
     justify-content: center;
     align-items: center;
     position: sticky;
     top: 30px;
+    height: 50px;
 }
 
 /* STYLING FOR MY SELECT KILLER AND SOLVE THIS CRIME */
