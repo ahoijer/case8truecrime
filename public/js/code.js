@@ -46,8 +46,11 @@ async function Init() {
 
 
     // use WebSocket >>> make sure server uses same ws port!
-    const websocket = new WebSocket("ws://localhost:80");
+    // const websocket = new WebSocket("ws://localhost:80");
 
+    const baseURL = window.location.href.split("//")[1];
+    const protocol = 'wss';
+    const websocket = new WebSocket(`${protocol}://${baseURL}`);
 
     // fetch för thekillers.json (denna behövs då jag gör en map på killer)
     const response1 = await fetch('thekillers.json')
