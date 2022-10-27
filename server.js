@@ -21,8 +21,8 @@ const murderers = [
         "name": "Mrs Agatha",
         "age": "Age: 72",
         "clues": [
-            "Approach: Food and drinks",
             "Murderweapon: Poison",
+            "Approach: Food and drinks",
             "Character Trait: Envy"
         ]
     },
@@ -43,9 +43,9 @@ const murderers = [
         "name": "Mr Clark",
         "age": "Age: 41",
         "clues": [
-            "Approach: Burglary",
             "Murderweapon: Pistol",
-            "Character Trait: Hate society"
+            "Character Trait: Hate society",
+            "Approach: Burglary",
         ]
     },
     {
@@ -71,7 +71,8 @@ const murderhistory = [{
 {
     "id": 1,
     "murderhistory": "The police are called to a home in a block of flats where the houses are close together. Inside the house they find a woman named Sophia, dead in her bed, it is the woman's sister who called and summoned the police to the scene. The sister is hysterical. The sister went straight to Sophia's house after her work was calling to know were she was, the door was locked but the car was still parked outside the house. She had to use her spare key to open the lock and enter the house. She called the police immediately when she found Sophia in her bed, she could tell that she was already dead. The police examined the house and the body. No blood, no sign of melee. On the other hand, they could see that she had been strangled with something as she had clear marks around her neck, but they found no murder weapon inside the House. She was wearing a nightgown. It was a hot summer's day and the window was slightly open in the bedroom and that is where they suspects the killer entered. No neighbors had seen or heard anything suspicious. Once inside the police station, you ask a couple of important questions to the sister where valuable information emerged. The sister said that Sophia had had a man who had been stalking her for a long period of time, it wasn't until the last few days that it had started to get really uncomfortable. After an incident with a unknown man, she started receiving mysterious calls in the evenings and nights. She also felt watched most of the time when she was out and about in town, at home and at work.In the last days of her life, she called her sister and was terrified when she had received several envelopes in the mailbox with pictures of her walking around in a nightgown in her own home. Along with the pictures were also love letters. She reported this to the police, who didn't do anything about it. A few days later, she is dead. Who is the mystery man? Can you help the police solve Sophia's murder?   ",
-    "killer": 1
+    "killer": 1,
+    "audio": "audio/Murder-Story-02.mp3"
 },
 {
     "id": 2,
@@ -90,8 +91,8 @@ const murderhistory = [{
 /* application variables
 ------------------------------- */
 // set port number >>> make sure client javascript uses same WebSocket port!
-// const port = 80;
-const port = 3000;
+const port = 80;
+// const port = 3000;
 
 
 

@@ -46,11 +46,11 @@ async function Init() {
 
 
     // use WebSocket >>> make sure server uses same ws port!
-    // const websocket = new WebSocket("ws://localhost:80");
+    const websocket = new WebSocket("ws://localhost:80");
 
-    const baseURL = window.location.href.split("//")[1];
-    const protocol = 'wss';
-    const websocket = new WebSocket(`${protocol}://${baseURL}`);
+    // const baseURL = window.location.href.split("//")[1];
+    // const protocol = 'wss';
+    // const websocket = new WebSocket(`${protocol}://${baseURL}`);
 
     // fetch för thekillers.json (denna behövs då jag gör en map på killer)
     const response1 = await fetch('thekillers.json')
@@ -358,6 +358,8 @@ window.onload = Init;
 // - måste göra en if på min renderclue så man inte kan klicka mer än 3 gånger per mördare för få en clue. CHECK
 // - När man startar om spelet (Laddar om sidan), vill man att en ny historia ska presenteras och att inte servern behövs stängas ner för att göra nytt spel
 // - Måste få ut samma mordhistoria på både webbläsarna - CHECK
+
+// LÖSA SÅ MAN KAN VÄLJA OM MAN VILL SPELA 1 eller 2 PLAYER, och att fler inte kan spela. 
 
 // FRÅGOR ANGÅENDE MIN CANVAS:
 // - Poäng (canvasen) fortsätter att dra av färg även fast det inte finns fler clues att hämta - CHECK
